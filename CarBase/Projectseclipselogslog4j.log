@@ -1,0 +1,74 @@
+2019-04-23 11:30:40 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:30:40 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:33:36 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:33:36 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:35:06 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:35:06 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:38:58 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:38:58 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:40:37 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:40:37 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:41:10 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 11:41:10 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:42:43 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 11:49:33 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 12:05:14 DEBUG ItemDao:42 - Result set is closed
+2019-04-23 12:05:14 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 12:07:40 DEBUG ItemDao:42 - Result set is closed
+2019-04-23 12:07:40 DEBUG ItemDao:64 - Statement is closed
+2019-04-23 12:08:04 DEBUG DatabaseUserDao:42 - Result set is closed
+2019-04-23 12:08:04 DEBUG DatabaseUserDao:31 - Statement is closed
+2019-04-23 12:09:03 DEBUG ResourceClose:43 - Result set is closed
+2019-04-23 12:09:03 DEBUG ResourceClose:32 - Statement is closed
+2019-04-23 12:09:25 DEBUG root:43 - Result set is closed
+2019-04-23 12:09:25 DEBUG root:32 - Statement is closed
+2019-04-23 12:09:55 DEBUG ItemDao:42 - Result set is closed
+2019-04-23 12:09:55 DEBUG ResourceClose:32 - Statement is closed
+2019-04-23 18:07:01 DEBUG ItemDao:42 - Result set is closed
+2019-04-23 18:07:01 DEBUG ResourceClose:32 - Statement is closed
+2019-04-23 18:07:42 DEBUG ItemDao:42 - Result set is closed
+2019-04-23 18:07:42 DEBUG ResourceClose:32 - Statement is closed
+2019-04-27 01:34:54 DEBUG ItemDao:42 - Result set is closed
+2019-04-27 01:34:54 DEBUG ResourceClose:32 - Statement is closed
+2019-04-27 02:49:33 DEBUG ItemDao:42 - Result set is closed
+2019-04-27 02:49:33 DEBUG ItemDao:53 - Prepared statement is closed
+2019-04-27 02:49:34 DEBUG ItemDao:42 - Result set is closed
+2019-04-27 02:49:34 DEBUG ResourceClose:32 - Statement is closed
+2019-04-27 02:49:46 DEBUG ItemDao:42 - Result set is closed
+2019-04-27 02:49:46 DEBUG ItemDao:53 - Prepared statement is closed
+2019-04-27 02:49:46 DEBUG ItemDao:42 - Result set is closed
+2019-04-27 02:49:46 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:21:02 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:21:02 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:23:22 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:23:22 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:34:02 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:34:02 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:40:26 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:40:26 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:40:48 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:40:48 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:44:08 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:44:08 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:45:44 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:45:44 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:46:13 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:46:13 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:47:53 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:47:53 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:48:40 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:48:40 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:49:11 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:49:11 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:50:23 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:50:23 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:50:53 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:50:53 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:51:36 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:51:36 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:52:48 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:52:48 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:53:03 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:53:03 DEBUG ResourceClose:32 - Statement is closed
+2019-04-28 18:54:46 DEBUG ResourceClose:43 - Result set is closed
+2019-04-28 18:54:46 DEBUG ResourceClose:32 - Statement is closed
