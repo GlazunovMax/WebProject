@@ -9,5 +9,4 @@ public class ConnectionPoolException extends Exception{
 	public ConnectionPoolException(String message, Exception exception) {
 		super(message, exception);
 	}
-	
 }
