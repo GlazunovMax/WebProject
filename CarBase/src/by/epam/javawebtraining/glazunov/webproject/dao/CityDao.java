@@ -4,7 +4,6 @@ import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
 
 /**
- * 
  * @author Glazunov
  * @version 1.0
  */

@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Model;
 
-
 /**
  * Shows common methods on dao layer interfaces
  * @author Glazunov

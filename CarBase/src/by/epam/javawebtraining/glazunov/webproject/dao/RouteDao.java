@@ -6,9 +6,8 @@ import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Route;
 
 /**
- * 
  * @author Glazunov
- *
+ * @version 1.0
  */
 public interface RouteDao extends ItemDao<Route> {
 	
