@@ -18,7 +18,7 @@ public interface OrderService {
 	 * @param id - client's id
 	 * @throws ServiceException - if can't get all the orders owned by the specific client
 	 */
-	List<Order> getOrderById(Long id) throws ServiceException;
+	List<Order> getOrderById(Long id, int offset, int countRows) throws ServiceException;
 
 	/**
 	 * Get all orders.
@@ -26,7 +26,7 @@ public interface OrderService {
 	 * @return List of all orders
 	 * @throws ServiceException if can't get all orders
 	 */
-	List<Order> getAllOrder() throws ServiceException;
+	//List<Order> getAllOrder() throws ServiceException;
 
 	
 	/**
@@ -35,7 +35,7 @@ public interface OrderService {
 	 * @return List of all orders which is not in the route
 	 * @throws ServiceException if can't get all orders which is not in the route
 	 */
-	List<Order> getAllOrderWithoutRoute() throws ServiceException;
+	List<Order> getAllOrderWithoutRoute(int offset, int countRows) throws ServiceException;
 
 	/**
 	 * Get order by id.
@@ -61,4 +61,12 @@ public interface OrderService {
 	 *  @throws ServiceException if can't delete order
 	 */
 	void removeOrder(long id) throws ServiceException;
+	
+	/**
+	 * update the order.
+	 * 
+	 * @param order - the order
+	 * @throws ServiceException if can't update order 
+	 */
+	void updateOrder(Order order) throws ServiceException;
 }

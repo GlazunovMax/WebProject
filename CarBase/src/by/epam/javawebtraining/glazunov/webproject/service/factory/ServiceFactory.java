@@ -2,11 +2,13 @@ package by.epam.javawebtraining.glazunov.webproject.service.factory;
 
 import by.epam.javawebtraining.glazunov.webproject.service.CarService;
 import by.epam.javawebtraining.glazunov.webproject.service.CityService;
+import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
 import by.epam.javawebtraining.glazunov.webproject.service.OrderService;
 import by.epam.javawebtraining.glazunov.webproject.service.RouteService;
 import by.epam.javawebtraining.glazunov.webproject.service.UserService;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.CarServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl;
+import by.epam.javawebtraining.glazunov.webproject.service.impl.CountRowServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.OrderServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.RouteServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl;
@@ -30,6 +32,9 @@ public class ServiceFactory {
 	
 	/** Creates a reference to the DatabaseRouteService object class */
 	private final RouteService routeService = new RouteServiceImpl();
+	
+	/** Creates a reference to the DatabaseCountRowService object class */
+	private final CountRowService countRowService = new CountRowServiceImpl();
 	
 
 	private ServiceFactory(){}
@@ -80,6 +85,14 @@ public class ServiceFactory {
 	 */
 	public RouteService getRouteService() {
 		return routeService;
+	}
+
+	/**
+	 * Method to get a reference to the DatabaseCountRowService object class {@link ServiceFactory#countRowService} 
+	 * @return a reference to the DatabaseRouteService object class
+	 */
+	public CountRowService getCountRowService() {
+		return countRowService;
 	}
 	
 }

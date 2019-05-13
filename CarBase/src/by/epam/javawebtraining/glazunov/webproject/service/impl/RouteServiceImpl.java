@@ -28,9 +28,9 @@ public class RouteServiceImpl implements RouteService {
 	 * @throws ServiceException if can't get all routes
 	 */
 	@Override
-	public List<Route> getAllRoute() throws ServiceException {
+	public List<Route> getAllRoute(int offset, int countRows) throws ServiceException {
 		try {
-			return routeDao.getAll();
+			return routeDao.getAll(offset, countRows);
 		} catch (DaoException e) {
 			throw new ServiceException(MESSAGE_ERROR_GET_ALL_ROUTE, e);
 		}
@@ -79,13 +79,13 @@ public class RouteServiceImpl implements RouteService {
 	 * @throws ServiceException - if can't get all the ROUTES owned by the specific driver
 	 */
 	@Override
-	public List<Route> getRouteById(long id) throws ServiceException {
+	public List<Route> getRouteById(long id, int offset, int countRows) throws ServiceException {
 		List<Route> routes = new ArrayList<>();
 
 		Validation.validId(id);
 
 		try {
-			routes = routeDao.getRouteById(id);
+			routes = routeDao.getRouteById(id, offset, countRows);
 		} catch (DaoException e) {
 			throw new ServiceException(MESSAGE_ERROR_GET_ROUTE_BY_ID, e);
 		}

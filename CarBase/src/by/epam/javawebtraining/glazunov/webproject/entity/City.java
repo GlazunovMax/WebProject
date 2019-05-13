@@ -12,7 +12,7 @@ public class City extends Model {
 	private static final long serialVersionUID = -7242345486333646911L;
 	
 	private String cityName;
-	private List<Order> orders;//&&LIST
+	private List<Order> orders;
 	
 	/**
 	 * Creates a new object

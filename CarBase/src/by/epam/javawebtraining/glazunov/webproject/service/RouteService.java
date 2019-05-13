@@ -18,7 +18,7 @@ public interface RouteService {
 	 * @param id - driver's id
 	 * @throws ServiceException - if can't get all the ROUTES owned by the specific driver
 	 */
-	List<Route> getRouteById(long id) throws ServiceException;
+	List<Route> getRouteById(long id, int offset, int countRows) throws ServiceException;
 
 	/**
 	 * Get all routes.
@@ -26,7 +26,7 @@ public interface RouteService {
 	 * @return List of all routes
 	 * @throws ServiceException if can't get all routes
 	 */
-	List<Route> getAllRoute() throws ServiceException;
+	List<Route> getAllRoute(int offset, int countRows) throws ServiceException;
 
 	/**
 	 * Add the route.

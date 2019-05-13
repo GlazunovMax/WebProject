@@ -19,6 +19,7 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  * @version 1.0
  */
 public class CarServiceImpl implements CarService {
+	private static final String MESSAGE_ERROR_ADD_CAR_FOR_DRIVER = "Can`t add car for driver!!!";
 	private DaoFactory factory = DaoFactory.getInstance();
 	private CarDao carDao = factory.getCarDao();
 	
@@ -29,9 +30,9 @@ public class CarServiceImpl implements CarService {
 	 * @throws ServiceException if can't get all cars
 	 */
 	@Override
-	public List<Car> getAllCar() throws ServiceException {
+	public List<Car> getAllCar(int offset, int countRows) throws ServiceException {
 		try {
-			return carDao.getAll();
+			return carDao.getAll(offset, countRows);
 		} catch (DaoException e) {
 			throw new ServiceException(MESSAGE_ERROR_GET_ALL_CAR, e);
 		}
@@ -54,6 +55,23 @@ public class CarServiceImpl implements CarService {
 			throw new ServiceException(MESSAGE_ERROR_ADD_CAR);
 		}
 
+	}
+	
+	/**
+	 * Add the car for driver. Which car belongs to a specific driver.
+	 * 
+	 * @param car - the car
+	 * @throws ServiceException if can't add car.
+	 */
+	@Override
+	public void addCarForDriver(Car car) throws ServiceException {
+		Validation.validateModel(car);
+
+		try {
+			carDao.addCarForDriver(car);
+		} catch (DaoException e) {
+			throw new ServiceException(MESSAGE_ERROR_ADD_CAR_FOR_DRIVER);
+		}
 	}
 
 	/**
@@ -113,5 +131,6 @@ public class CarServiceImpl implements CarService {
 		}
 
 	}
+
 
 }

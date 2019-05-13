@@ -20,7 +20,7 @@ public interface CarService {
 	 * @return List of all cars
 	 * @throws ServiceException if can't get all cars
 	 */
-	List<Car> getAllCar() throws ServiceException;
+	List<Car> getAllCar(int offset, int countRows) throws ServiceException;
 
 	/**
 	 * Add the car.
@@ -29,6 +29,14 @@ public interface CarService {
 	 * @throws ServiceException if can't add car.
 	 */
 	void addCar(Car car) throws ServiceException;
+	
+	/**
+	 * Add the car for driver.
+	 * 
+	 * @param car - the car
+	 * @throws ServiceException if can't Add the car for driver.
+	 */
+	void addCarForDriver(Car car) throws ServiceException;
 
 	/**
 	 * Delete the car by id.

@@ -118,12 +118,11 @@ public class Validation {
 		}
 		
 	
-		if (order.getCountPassenger() > 4 || order.getCountPassenger() < 0) {
+		if (order.getCountPassenger() > 4 || order.getCountPassenger() <= 0) {
 			throw new ServiceException(MESSAGE_ERROR_COUNT_PASSENGER);
 		}
 		
 		validateRegistration(order.getUser());
-
 	}
 
 	public static void validateOrders(List<Order> orders) throws ServiceException{
