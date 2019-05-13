@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.epam.javawebtraining.glazunov.webproject.command.Command;
 import by.epam.javawebtraining.glazunov.webproject.entity.Order;
+import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
 import by.epam.javawebtraining.glazunov.webproject.service.OrderService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
@@ -17,35 +18,44 @@ import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactor
 import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class GetAllOrderById implements Command{
- 
-	
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Order> orders = null;
 		Long id = Long.parseLong(request.getParameter(ID));
-		String page;
+		String pageForward;
+		int page = 1;
+		int rowsPerPage = 3;
+		
+		 if(request.getParameter(PAGE) != null){
+	          page = Integer.parseInt(request.getParameter(PAGE));
+		 }
 		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		OrderService orderService = factory.getOrderService();
+		CountRowService countRowService = factory.getCountRowService();
 		
 		try {
-			orders = orderService.getOrderById(id);
+			orders = orderService.getOrderById(id, (page-1)*rowsPerPage, rowsPerPage);
 			
 			if(!orders.isEmpty()){
+				int countRowAllRoute = countRowService.getAllOrderByIdClientCount(id);
+				int countRows = (int) Math.ceil(countRowAllRoute * 1.0 / rowsPerPage);
 				
 				request.setAttribute(ORDER_LIST, orders);
-				request.setAttribute(USER_ID_PAR, id);
-				page = PATH_TO_CLIENT_JSP;
+				request.setAttribute(COUNT_ROWS, countRows);
+		        request.setAttribute(CURRENT_PAGE, page);
+				pageForward = PATH_TO_CLIENT_JSP;
 			}else{
 				request.setAttribute(MESSAGE_ORDER_LIST_EMPTY, MESSAGE_IF_ORDER_LIST_EMPTY);
-				page = PATH_TO_CLIENT_JSP;
+				pageForward = PATH_TO_CLIENT_JSP;
 			}
 		} catch (ServiceException e) {
 			request.setAttribute(ERROR_ORDER_LIST, e.getMessage());
-			page = PATH_TO_CLIENT_JSP;
+			pageForward = PATH_TO_CLIENT_JSP;
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(pageForward);
 		dispatcher.forward(request, response);
 	}
 

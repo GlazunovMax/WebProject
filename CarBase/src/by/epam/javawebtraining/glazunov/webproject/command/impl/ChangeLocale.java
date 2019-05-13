@@ -12,7 +12,7 @@ import by.epam.javawebtraining.glazunov.webproject.command.Command;
 import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class ChangeLocale implements Command{
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pageName = request.getParameter(PAGE);
@@ -24,11 +24,11 @@ public class ChangeLocale implements Command{
 		request.getSession().setAttribute(LOCALE, locale);
 		String page;
 	
-		if(pageName.endsWith("index.jsp")){
-			page = "index.jsp";
+		if(pageName.endsWith(INDEX_JSP)){
+			page = INDEX_JSP;
 		}else{
-			String pageJsp = pageName.substring(pageName.lastIndexOf("/"));
-			page = "/WEB-INF/jsp" + pageJsp;
+			String pageJsp = pageName.substring(pageName.lastIndexOf(DELIMETR));
+			page = PATH_TO_JSP + pageJsp;
 		}
 	
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

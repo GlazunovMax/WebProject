@@ -12,22 +12,17 @@ import by.epam.javawebtraining.glazunov.webproject.command.Command;
 import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class SelectPage implements Command {
-	//private static final String START_PAGE = "/WEB-INF/jsp/StartPage.jsp";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String role = request.getParameter(PAGE).toUpperCase();
 		String id = request.getParameter(ID);
 		String page = null;
-		
-		//Client
+
+		// Client
 		String addSuccess = request.getParameter(ADD_ORDER_SUCCESS);
 		String removeSuccess = request.getParameter(REMOVE_ORDER_SUCCESS);
-		
-		//Driver response
-	
-		//Disparcher
-		
+
 		switch (role) {
 		case CLIENT:
 			request.setAttribute(ID, id);
@@ -46,8 +41,7 @@ public class SelectPage implements Command {
 		default:
 			break;
 		}
-		
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

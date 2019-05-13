@@ -18,28 +18,26 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
 
 public class AddRoute implements Command {
 
-	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long orderId = Long.parseLong(request.getParameter(ID_ORDER));
 		Long driverId = Long.parseLong(request.getParameter(DRIVER_ID));
-		
-		
+
 		Route route = new Route();
 		ServiceFactory factory = ServiceFactory.getInstance();
 		RouteService routeService = factory.getRouteService();
 		UserService userService = factory.getUserService();
 		OrderService orderService = factory.getOrderService();
 		String page = null;
-		
-			route.setMark(Route.Mark.NOT_DONE);
+
+		route.setMark(Route.Mark.NOT_DONE);
 		try {
 			route.setDriver(userService.getUserById(driverId));
 			route.setOrder(orderService.getSingleOrderById(orderId));
-			
+
 			routeService.addRoute(route);
-			
-			if(route != null){
+
+			if (route != null) {
 				page = PATH_ADD_ROUTE_TO_DISPATCHER_JSP;
 				response.sendRedirect(page);
 			}
@@ -49,11 +47,7 @@ public class AddRoute implements Command {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}
-		
-		
-		
-		
-		
+
 	}
 
 }

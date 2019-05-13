@@ -18,7 +18,6 @@ public class RemoveOrder implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Order orderRemove;// = new Order();
 		Long idOrder = Long.parseLong(request.getParameter(ID));
 		String page = null;
 		

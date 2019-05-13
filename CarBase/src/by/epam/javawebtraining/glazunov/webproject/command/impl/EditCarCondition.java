@@ -14,7 +14,6 @@ import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactor
 import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class EditCarCondition implements Command {
-
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

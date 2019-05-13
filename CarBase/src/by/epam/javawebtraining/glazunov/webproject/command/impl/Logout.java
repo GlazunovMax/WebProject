@@ -14,15 +14,14 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
 
 public class Logout implements Command {
 
-	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();  
-        session.invalidate(); 
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher(PATH_TO_INDEX_JSP);
+		HttpSession session = request.getSession();
+		session.invalidate();
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(PATH_TO_INDEX_JSP);
 		dispatcher.forward(request, response);
-		
+
 	}
 
 }

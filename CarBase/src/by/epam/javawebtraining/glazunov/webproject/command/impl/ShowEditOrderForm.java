@@ -15,32 +15,33 @@ import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactor
 
 import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
-public class CreateRoute implements Command {
-
+public class ShowEditOrderForm implements Command {
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Order order = null;
+		Order order = new Order();
 		Long id = Long.parseLong(request.getParameter(ID));
-
-		String page;
-
+		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		OrderService orderService = factory.getOrderService();
-
+		String page = null;
+		
 		try {
 			order = orderService.getSingleOrderById(id);
+			
+			if(order != null){
+				request.setAttribute(SINGLE_ORDER, order);
+				page = PATH_TO_CLIENT_JSP;
+			}else{
+				request.setAttribute(ERROR_GET_ORDER_BY_ID, MESSAGE_ERROR_GET_ORDER_BY_ID);
+				page = PATH_TO_CLIENT_JSP;
+			}
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR_ORDER_BY_ID, e.getMessage());
-			page = PATH_CREATE_ROUTE_TO_CREATE_ROUTE_DISPATCHER_JSP;
+			request.setAttribute(ERROR_SHOW_EDIT_ORDER_FORM, e.getMessage());
+			page = PATH_TO_CLIENT_JSP;
 		}
-
-		request.setAttribute(ID_ORDER, id);
-		request.setAttribute(ORDER_HINT, order.getDeparture().getCityName() + " - "
-				+ order.getDestination().getCityName() + ". " + order.getTimeDeparture());
-
-		page = PATH_CREATE_ROUTE_TO_CREATE_ROUTE_DISPATCHER_JSP;
-
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}
+
 }

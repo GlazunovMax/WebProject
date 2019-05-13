@@ -1,9 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
-
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,13 +15,14 @@ import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
 
-public class GetAllCarByIdDriver implements Command {
+import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
-	
+
+public class GetAllCar implements Command{
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Set<Car> cars = null;
-		Long id = Long.parseLong(request.getParameter(ID));
+		List<Car> cars = null;
 		String pageForward;
 		int page = 1;
 		int rowsPerPage = 2;
@@ -37,28 +36,27 @@ public class GetAllCarByIdDriver implements Command {
 		CountRowService countRowService = factory.getCountRowService();
 		
 		try {
-			cars = carService.getAllCarByIdDriver(id, (page-1)*rowsPerPage, rowsPerPage);
+			cars = carService.getAllCar((page-1)*rowsPerPage, rowsPerPage);
 			
 			if(!cars.isEmpty()){
-				int countRowAllCar = countRowService.getAllCarByIdDriverCount(id);
+				int countRowAllCar = countRowService.getAllCarCount();
 				int countRows = (int) Math.ceil(countRowAllCar * 1.0 / rowsPerPage);
 			       
 				request.setAttribute(CARS_LIST, cars);
 		        request.setAttribute(COUNT_ROWS, countRows);
 		        request.setAttribute(CURRENT_PAGE, page);
-		        pageForward = PATH_TO_DRIVER_JSP;
+		        pageForward = PATH_TO_DISPATCHER_JSP;
 			}else{
 				request.setAttribute(MESSAGE_CARS_LIST_EMPTY, MESSAGE_IF_CARS_LIST_EMPTY);
-				pageForward = PATH_TO_DRIVER_JSP;
+				pageForward = PATH_TO_DISPATCHER_JSP;
 			}
 			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR_GET_ALL_CAR_BY_ID_DRIVER, e.getMessage());
-			pageForward = PATH_TO_DRIVER_JSP;
+			request.setAttribute(ERROR_GET_ALL_CAR, e.getMessage());
+			pageForward = PATH_TO_DISPATCHER_JSP;
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(pageForward);
 		dispatcher.forward(request, response);
-		
 	}
 
 }
