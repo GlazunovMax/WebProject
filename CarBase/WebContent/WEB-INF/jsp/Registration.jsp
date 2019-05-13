@@ -15,10 +15,25 @@
 	
 </head>
 <body>
-	<jsp:include page="LocalePage.jsp"/> 
+	<jsp:include page="fragment/LocalePage.jsp"/> 
+	<a href="javascript:history.back()"><fmt:message key="go_back"/></a>
 	<a href="Controller?command=logout"><fmt:message key="logout"/></a>
+	
+<!------------------ERROR in REGISTRATION---------------------->
+	<h2><!-- style="text-align: center; color: red;" -->
+		<c:if test="${not empty requestScope.errorRegistration}">
+			<fmt:message key="${requestScope.errorRegistration}" /> 
+		</c:if>
+	</h2>
+<!-- ------------------------------------------------------------- -->
+	
+	
+<!-- -------------------REGISTRATION FORM ------------------------------>	
 
 	<form class="box" action="Controller" method="post">
+		<fieldset>
+		<legend style="color: white;"><i><b><fmt:message key="registration"/></b></i></legend>
+		
 		<input type="hidden" name="command" value="registration"/>
 		<h3><fmt:message key="name"/></h3>
 		<input type="text" class="name" name="name" value="" /> 
@@ -35,21 +50,24 @@
 		<h3><fmt:message key="phone"/></h3>
 		<input type="text" class="phone" name="phone" value="" />
 		
+		
 		<h3><fmt:message key="role"/></h3>
-		<input type="text" class="role" name="role" readonly="readonly" value="client"/>
+			<c:if test="${requestScope.roleRegistr eq 'client'}">
+				<input type="text" class="role" name="role" readonly="readonly" value="Client"/> 
+				<input type="hidden" name="hiddenRole" value="client"/>
+			</c:if>
+			
+			<c:if test="${requestScope.roleRegistr eq 'driver'}">
+				<input type="text" class="role" name="role" readonly="readonly" value="Driver"/>
+				<input type="hidden" name="hiddenRole" value="driver"/> 
+			</c:if>
+		
 		<br>
 		<input type="submit" class="submit" value="<fmt:message key="registration"/>"/> 
+		<input type="reset" class="submit" value="<fmt:message key="clean"/>"/>
+	</fieldset>
 	</form>
-
-	
-
-	<!--ERROR in REGISTRATION-->
-	<h2><!-- style="text-align: center; color: red;" -->
-		<c:if test="${not empty requestScope.errorRegistration}">
-			<%-- <c:out value="${requestScope.errorSingIn}" /> --%>
-			<fmt:message key="${requestScope.errorRegistration}" /> 
-		</c:if>
-	</h2>
+<!-- ------------------------------------------------------------------------------------------------ -->
 
 </body>
 </html>

@@ -8,11 +8,13 @@ body{
 
 .box{
 	width: 400px;
-	/* padding: 40px;  */
-	position: absolute;
+	float: inherit;
+	 padding: 20px;
+	 margin: 20px auto;
+	/* position: absolute;
 	top: 65%;
 	left: 50%;
- 	transform: translate(-50%, -50%);
+ 	transform: translate(-50%, -50%); */
 	border: 4px solid #00ff00;
 	/* background: #146aeb; */
 	text-align: center;
@@ -46,7 +48,7 @@ body{
 	border-color: aqua;
 }
 
-.box input[type = "submit"]{
+.box input[type = "submit"], .box input[type = "reset"]{
 	border: 0;
 	background: none;
 	display: block;
@@ -63,9 +65,10 @@ body{
 	font-size: 2.5ex; /* ex (высота символа  */
 }
 
-.box input[type = "submit"]:hover{
+.box input[type = "submit"]:hover, .box input[type = "reset"]:hover {
 	background: #00ff00;
 }
+
 /*INDEX  */
 .buttons{
 	text-align: center;
@@ -94,10 +97,13 @@ body{
 	/* background: #00ff00; */
 }
 
+/* LOCALE PAGE */
 .localeLink{
 	text-align: right;
 	margin-right: 30px;
-	padding: 20px 50px;
+	padding: 10px 50px 10px 0px;
+	width: 100%; 
+	background: green;
 }
 
 a{
@@ -106,6 +112,7 @@ a{
 	font-size: 2ex;
 }
 
+
 a:HOVER{
 	color: red;
 }
@@ -113,6 +120,7 @@ a:HOVER{
 a:ACTIVE{
 	color: blue;
 }
+
 
 h1{
 	text-align: center;
@@ -141,27 +149,13 @@ h2:hover{
 
 
 /* TABLE */
-.button{
-	/* height:35px;
-  	margin-left: 40%;
-  	width:10%;
-  	border-radius:15px;
-  	box-sizing:border-box;
-  	padding:5px;
-  	background:#c0c0c0
-  	color: #FFF;
-  	font-family: 'Open Sans', sans-serif;  
-  	font-weight:200;
-  	font-size: 14pt;
-  	transition:background .4s; */
-	
-		
-	border: 0;
+.button{	
+	/* border: 0; */
 	background: none;
 	display: block;
 	margin: 10px auto;
 	text-align: center;
-	font-size: 1vw;
+	font-size: 1.2vw;
 	border: 2px silver #3495db;
 	padding: 10px 25px;
 	outline: none;
@@ -170,13 +164,29 @@ h2:hover{
 	transition: 0.25s;
 	cursor: pointer;
 	font-family: cursive;
-	
 }
 
 .button:hover{
 	color: #0080ff;
 	/* background: #00ff00; */
 }
+
+
+.small-button{
+	background: none;
+	color: black;
+	border-radius: 15px;
+	cursor: pointer;
+	font-family: cursive;
+	text-align: center;
+	font-size: 1vw;
+}
+
+.small-button:hover{
+	color: #0080ff;
+	background: #00ff00;
+}
+
 
 .caption_table{
 	color: #00ff80;
@@ -212,3 +222,39 @@ table{
 caption {
 	padding: 8px 0; 
 }
+
+
+/* DRIVER */
+.left-menu{
+	width: 15%; 
+    /* background: #ccc;
+    padding: 5px;
+    padding-right: 20px; 
+    border: solid 1px black; */ 
+    float: left;
+    /* border: 1px solid red; */
+	/* -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);  */
+	/* width: 20%;
+	float: left; */
+}
+.output-table-menu{
+	width: 85%; 
+    /* background: #fc0; 
+    padding: 5px; 
+    border: solid 1px black;  */
+    float: left; 
+    /* position: relative; 
+    top: 40px; 
+    left: -70px;  */
+    
+	/* width: 80%;
+ 	float: left;  */
+}
+
+.header{
+	 float: left; 
+	 width: 100%; 
+	 padding: 5px;
+}
+
+

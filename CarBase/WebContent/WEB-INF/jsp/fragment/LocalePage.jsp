@@ -22,6 +22,6 @@
 	    <a href="Controller?language=ru&page=${url}&command=change_Locale ">
 			<fmt:message key="Russian"/>
 		</a>
-	</div>
+	</div>	
 </body>
 </html>

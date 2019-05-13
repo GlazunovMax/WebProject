@@ -13,31 +13,25 @@
 <title>Insert title here</title>
 	<!-- <link href="css/style.css" rel="stylesheet" type="text/css"/> -->
 	<style type="text/css"><%@include file="css/style.css"%></style>
+
 </head>
 <body>
- <jsp:include page="WEB-INF/jsp/LocalePage.jsp"/>  
+ <jsp:include page="WEB-INF/jsp/fragment/LocalePage.jsp"/>  
 	
 	<h1 style="color: red"><fmt:message key="car_base"/></h1>
 	<div class="buttons">
-		<%-- <form method="get" action="SingIn.jsp">
-		    <button class="but" type="submit"><fmt:message key="sing_in"/></button>
-		</form>
 		
-		<form method="get" action="Registration.jsp">
-		    <button class="but" type="submit"><fmt:message key="registration"/></button>
-		</form>
-		 --%>
-		<form method="get" action="Controller">
+		<form method="POST" action="Controller">
 			<input type="hidden" name="command" value="go_to_sing_in" />
 		    <button class="but" type="submit"><fmt:message key="sing_in"/></button>
 		</form>
 		
-		<form method="get" action="Controller">
-		<input type="hidden" name="command" value="go_to_registration" />
+		<form method="POST" action="Controller">
+			<input type="hidden" name="command" value="go_to_registration" />
+			<input type="hidden" name="roleRegistr" value="client" />
 		    <button class="but" type="submit"><fmt:message key="registration"/></button>
 		</form>
 	
-	<%-- <a href="Registration.jsp"><fmt:message key="registration"/></a> --%>
 	</div>
 </body>
 </html>

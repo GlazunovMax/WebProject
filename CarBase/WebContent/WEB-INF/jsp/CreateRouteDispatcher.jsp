@@ -13,19 +13,42 @@
 	<style type="text/css"><%@include file="/css/style.css"%></style>
 </head>
 <body>
-<jsp:include page="LocalePage.jsp"/> 
-<a href="Controller?command=logout"><fmt:message key="logout"/></a>
 
- <c:out value="${param.id}"/>
- <jsp:useBean id="userService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl" scope="application"/>
+<!-----------------------HEDER --------------------------------------------------->
+	<c:set var="Role" value="Disparcher" scope="request"/>
+	<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
+<!-- ------------------------------------------------------------------------- -->
+
+
+
+<%-- <c:set var="id" value="${sessionScope.id}" scope="request"/> --%><!-- idCar -->
+<%-- <div class="left-menu" style="border: thin;">
+	
+	<form class="" action="Controller" method="get">
+		<input type="hidden" name="command" value="get_all_car" /> 
+		<input type="hidden" name="id" value="${id}" /> 
 		
-<!-- CREATE ROUTE TABLE -->
+		<!-- <h3 align="left" > -->
+			<input class="button" type="submit" value="<fmt:message key="allCars"/>"/>
+		<!-- </h3> -->								
+	</form>	
+</div> --%>
+
+
+
+<c:out value="${param.id}"/>
+
+		
+<!-------------------------------- CREATE ROUTE TABLE ------------------------------------------------------------------------------>
+<jsp:useBean id="userService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl" scope="application"/>
+
+<div class="output-table-menu" align="center">
  <form action="Controller" method="post">
  	<input type="hidden" name="command" value="add_route" /> 
 	<input type="hidden" name="idOrder" value="${param.id}" /> 
 	<%-- <input type="hidden" name="idDriver" value="${sessionScope.id}" /> 
 	 --%>	
- 	<table border="1">
+ 	<table border="1" bgcolor="#00FFFF">
  	<caption><fmt:message key="create_route"/></caption>	
 		<tr>
 			<th>ID</th> 
@@ -35,8 +58,9 @@
 		
 		<tr>
 			<td>1</td>
-		 	<td><c:out value="${param.id}"/></td>
-
+			
+		 	<td style="text-align: center;"><abbr title="${orderHint}"><c:out value="${param.id}" /></abbr></td>
+			
 			<td>
 				<c:choose>
 					<c:when test="${empty userService.getAllDriver()}">
@@ -44,9 +68,9 @@
 					</c:when>
 					
 					<c:otherwise>
-						<select name="driver_id">
+						<select name="driver_id" style="background: #00FFFF">
 				 			<c:forEach var="driver" items="${userService.getAllDriver()}">
-				 				<option value="<c:out value="${driver.id}"/>"> ${driver.id}</option>		 				  
+				 				 <option value="<c:out value="${driver.id}"/>"> ${driver.name} ${driver.surname}</option>				  
 				 			</c:forEach>
 				  		</select>
 			  		</c:otherwise>
@@ -55,11 +79,21 @@
  		</tr> 
  	
  	</table>
-	<input class="" type="submit" value="<fmt:message key="add_route"/>"/>
+	<input class="small-button" type="submit" style="background: #00FFFF" value="<fmt:message key="add_route"/>"/>
  </form>
  
- <!-- TABLE DRIVERS -->
- <table border="1" bgcolor="pink">
+ <!--------------------- error Hint -------------------------------->
+	<c:if test="${not empty requestScope.errorOrderById}">
+		<h4><c:out value="${requestScope.errorOrderById}" /> </h4>
+	</c:if>
+	
+ <!----------------------------------------------------------------------------------------------------------------------------------->
+ 
+ 
+ 
+ 
+ <!--------------------------------------------------- TABLE DRIVERS ----------------------------------------------------->
+ <table border="1" bgcolor="#CD853F">
 	<caption><fmt:message key="drivers"/></caption>
 			
 		<tr>
@@ -68,7 +102,7 @@
 			<th><fmt:message key="driver_surname" /></th>
 			<th><fmt:message key="driver_phone" /></th>
 			<th><fmt:message key="driver_role" /></th>
-			<th><fmt:message key="car_id" /></th>
+			<th><fmt:message key="car_status" /></th>
 		</tr>
 		
 		
@@ -80,9 +114,26 @@
 			 	<td>${driver.phoneNumber}</td>
 			 	<td>${driver.role}</td>
 			 	<td>
-				 	<select name="car_id">
-					 	<c:forEach var="car" items="${driver.cars}">
-					 		<option value="<c:out value="${car.id}"/>"> ${car.id}</option>
+				 	<select name="car_id" style="background: #CD853F">
+					 	
+					 	<c:forEach var="car" items="${driver.cars}"> 
+					 		<c:choose>
+					 			<c:when test="${car.statusCar eq 'GOOD'}">
+					 				<option value="<c:out value="${car.id}"/>"> ${car.mark} ${car.number}</option>
+					 			</c:when>
+					 			
+					 			<c:otherwise>
+					 				<option value="<c:out value="${car.id}"/>"> ${car.mark} ${car.number} is broken</option>
+					 			</c:otherwise>
+					 			
+					 		</c:choose>
+					 	
+					 	
+					 		<%-- <c:if test="${car.statusCar eq 'GOOD'}">
+					 		
+					 			<option value="<c:out value="${car.id}"/>"> ${car.id}</option>
+					 			
+					 		</c:if> --%>
 					 	</c:forEach>
 				 	</select>
 			 	</td>	
@@ -92,12 +143,23 @@
 			<tr><td><fmt:message key="no_drivers"/></td></tr>
 		</c:if>
 </table>
+<!------------------------------------------------------------------------------------------------------------------------------  -->
+
+<!--MESSAGE ERROR GET_CARS_BY_ID_DRIVER  -->
+	<c:if test="${not empty requestScope.errorGetAllCar}">
+		<h4><c:out value="${requestScope.errorGetAllCar}" /> </h4>
+	</c:if>	
+
+
+</div>
 
 
 <!-- TABLE CARS --> 
+<%-- <c:if test="${not empty requestScope.carsList}">
 <table border="1" bgcolor="pink">
+
 	 <jsp:useBean id="carService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CarServiceImpl" scope="application"/>
-	 <caption><fmt:message key="cars"/></caption>
+	 <caption><fmt:message key="Work cars"/></caption>
 			
 		<tr>
 			<th><fmt:message key="car_id" /></th>
@@ -107,26 +169,33 @@
 		</tr>
 		
 		<c:choose>
-			<c:when test="${empty orderService.getAllOrderWithoutRoute()}">
+			<c:when test="${empty requestScope.carsList}">
 				<tr><td><fmt:message key="no_cars"/></td></tr>
 			</c:when>
 			
 			<c:otherwise>
-				<c:forEach var="car" items="${carService.getAllCar()}">
+				<c:forEach var="car" items="${requestScope.carsList}">
+				<c:if test="${car.statusCar eq 'GOOD'}">
 					<tr>
 						<td>${car.id}</td>
 						<td>${car.mark}</td>
 						<td>${car.number}</td>
 						<td>${car.statusCar}</td>
 					</tr>
+				</c:if>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		
 </table>
 
+	<c:set var="command" value="get_all_car" scope="request"/>
+	<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>	
+</c:if>
+ --%>
+
+
 <!-- TABLE ORDERS -->
-<table border="1" bgcolor="green">
+<%-- <table border="1" bgcolor="green">
 	<jsp:useBean id="orderService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.OrderServiceImpl" scope="application"/>
 	<caption><fmt:message key="orders"/></caption>
 			
@@ -156,22 +225,10 @@
 			</c:otherwise>
 		</c:choose>
 		
-</table>
+</table> --%>
  
  
- <%-- 
- 			<td>
-				 <select name="driver_id">
-		 			<c:forEach var="driver" items="${userService.getAllDriver()}">
-		 				<option value="<c:out value="${driver.id}"/>"> ${driver.id}</option>
-		 			 <td>${driver.name}</td>
-		 				<td>${driver.surname}</td>
-		 				<td>${driver.phoneNumber}</td>
-		 				<td>${driver.role}</td>
-		 				  
-		 			</c:forEach>
-		  	</select>	
-		 	</td>	 --%>
+
  
 </body>
 </html>

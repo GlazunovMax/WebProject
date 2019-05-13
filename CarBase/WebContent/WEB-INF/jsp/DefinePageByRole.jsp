@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- В зависимости от рои пользователя передрасывает на соответствующую страницу -->
 	
+	<!--Depending on the role redirect to the appropriate page  -->
 	<c:if test="${requestScope.user.role eq 'CLIENT'}">
 		<c:set var="role" value="CLIENT"/>
 		<c:set var="id" value="${requestScope.user.id}"/>

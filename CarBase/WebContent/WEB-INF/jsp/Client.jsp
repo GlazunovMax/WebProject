@@ -13,40 +13,41 @@
 	<style type="text/css"><%@include file="/css/style.css"%></style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/LocalePage.jsp" />
-	
-	<a href="Controller?command=logout"><fmt:message key="logout"/></a>
-	
-	
-CLIENR+T
-	Hello, <c:out value="${sessionScope.userName}"/>
-	 <c:out value="${sessionScope.id}"/>
-	
-	
-<!--ALL ORDERS FOR USER 	 -->
+
+<!-------------------------- HEADER ----------------------------------------->
+<jsp:include page="/WEB-INF/jsp/fragment/LocalePage.jsp" />
+<c:set var="Role" value="Client" scope="request"/>
+<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
+<!-- --------------------------------------------------------------------- -->	
+
+
+
+<!-------------------------------MENU /ALL ORDERS/ADD ORDER/ FOR USER ------------------- -->
+
+<c:set var="id" value="${sessionScope.id}" scope="request"/>	<!-- idClient -->
+
+<div class="left-menu" style="border: thin;">
 	<form class="" action="Controller" method="post">
 		<input type="hidden" name="command" value="get_all_order_by_id" /> 
 		<input type="hidden" name="id" value="${sessionScope.id}" /> 
-		<!-- <input type="hidden" name="pageNumber" value="1" />  -->
 
 		<h3 align="left" >
 			<input class="button" type="submit" value="<fmt:message key="allOrder"/>"/>
 		</h3>								
 	</form>
 	
-	<!--MESSAGE IF ORDERS LIST EMPTY GET BY ID -->
-	<c:if test="${not empty requestScope.messageOrderListEmpty}">
-		<fmt:message key="${requestScope.messageOrderListEmpty }"/>
-	</c:if>
-	
-	<!--MESSAGE ERROR GET_ALL_ORDER_BY_ID  -->
-	<c:if test="${not empty requestScope.errorOrderListEmpty}">
-		<h4><c:out value="${requestScope.errorOrderListEmpty}" /> </h4>
-	</c:if>
+	<form class="" action="Controller" method="post">
+		<input type="hidden" name="command" value="go_to_add_order" /> 
+		<input class="button" type="submit" value="<fmt:message key="addOrder"/>"/>							
+	</form>
+</div>
+<!-- -------------------------------------------------------------------------------------- -->	
+
 	
 	
-	
-<!--TABLE WITH LIST ORDERS FOR USER  -->
+<!---------------------------TABLE WITH LIST ORDERS FOR USER  ----------------------------------------------------------->
+
+<div class="output-table-menu" >
 	<c:if test="${not empty requestScope.orderList}">
 	<table border="1">
 		<caption><fmt:message key="orders"/></caption>
@@ -58,6 +59,7 @@ CLIENR+T
 			<th><fmt:message key="timeDate" /></th>
 			<th><fmt:message key="count_pass" /></th>
 			<th><fmt:message key="cancel"/></th>
+			<th><fmt:message key="edit"/></th>
 		</tr>
 			
 		<c:forEach var="order" items="${requestScope.orderList}">
@@ -67,41 +69,44 @@ CLIENR+T
 				<td>${order.destination.cityName}</td>
 				<td>${order.timeDeparture}</td>
 				<td>${order.countPassenger}</td>
-				<td><a href="Controller?id=${order.id}&command=remove_order"><fmt:message key="remove"/></a></td>
+				<td><a href="Controller?id=${order.id}&command=remove_order" onclick="if(!(confirm('Are you sure you want to delete this order?'))) return false"> 
+						<fmt:message key="remove"/>
+					</a>
+				</td>
+				<td>
+					<form class="" action="Controller" method="get">
+						<input type="hidden" name="command" value="show_edit_order_form" /> 
+						<input type="hidden" name="id" value="${order.id}" /> 
+						<input class="small-button" type="submit" value="<fmt:message key="edit"/>"/>							
+					</form>
+				</td>	
 			</tr>
 			
 		</c:forEach>		
 	</table>
-	</c:if>
 	
-<!--ERROR REMOVE ORDER  -->
-	<c:if test="${not empty requestScope.ErrorOrderRemove}">
-		<fmt:message key="${requestScope.ErrorOrderRemove}"/>
-		
-<!--MESSAGE ABOUT SUCCESSFUL REMOVE  -->
-	</c:if><c:if test="${not empty requestScope.removeOrderSuccess}">
-		<fmt:message key="${requestScope.removeOrderSuccess}"/>
+	<c:set var="command" value="get_all_order_by_id" scope="request"/>
+	<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>
 	</c:if>
-	
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------- -->	
+
 
 	
-	
-<!-- ADD NEW ORDER  -->
-<%-- <c:set var="idRe">${sessionScope.id} </c:set>
- --%>
-  <h3> <fmt:message key="addOrder"/> </h3>  
-	<form class="addOrderForm" action="Controller" method="post">
-		<%-- <jsp:useBean id="userService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl" scope="application"/>
-	 --%>	
+<!------------------------------------------------- ADD NEW ORDER ------------------------------------------------------------------------------->
+<jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
+		 
+<div class="output-table-menu" >
+	<c:if test="${not empty requestScope.addNewOrder}">	
+  	
+	<form class="addOrderForm" action="Controller" method="post">	
 		<input type="hidden" name="command" value="add_order" /> 
 		<input type="hidden" name="id" value="${sessionScope.id}" /> 
-		<%-- <input type="hidden" name="user" value="${userService.getUserById(id)}" /> --%>
 		
-		
-	
-		 <table border="1">
-		 	<jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
-		 	<tr>
+		<table border="1">
+		<caption><fmt:message key="addOrder"/>  </caption>
+		 	<%-- <jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
+		  --%>	<tr>
 		 		<td><fmt:message key="city_departure"/>:</td>
 		 		<td>
 			 		<c:choose>
@@ -110,7 +115,7 @@ CLIENR+T
 						</c:when>
 				
 						<c:otherwise>
-				 			<select name="city_departure">	
+				 			<select name="city_departure" style="background: #008080">	
 				 				<c:forEach var="city_dep" items="${cityService.getAllCity()}">
 				 					<option value="<c:out value="${city_dep.id}"/>" > ${city_dep.cityName} </option>
 				 				</c:forEach>
@@ -129,7 +134,7 @@ CLIENR+T
 						</c:when>
 				
 						<c:otherwise>
-				 			<select name="city_destination">
+				 			<select name="city_destination" style="background: #008080">
 				 				<c:forEach var="city_des" items="${cityService.getAllCity()}">
 				 					<option value="<c:out value="${city_des.id}"/>" > ${city_des.cityName} </option>
 				 				</c:forEach>
@@ -151,23 +156,74 @@ CLIENR+T
 		 		<td>
 					<input type="text" name="count_passenger" value="">
 				</td>
-		 	</tr>		 
-		 </table>
-		 
-		 
+			</tr>		 
+		</table>
 	
-		<h3 align="left" >
-			<input class="" type="submit" value="<fmt:message key="send"/>"/>
-		</h3>								
+		<input class="small-button" type="submit" value="<fmt:message key="send"/>"/>				
 	</form>
-<!--MESSAGE ABOUT SUCCESSFUL ADD ORDER  -->
-	<c:if test="${not empty requestScope.AddOrderSuccess}">
-		<fmt:message key="${requestScope.AddOrderSuccess }"/>
-	</c:if>
-<!--MESSAGE ERROR ADD_ORDER  -->
-	<c:if test="${not empty requestScope.errorAddOrder}">
-		<h4><c:out value="${requestScope.errorAddOrder}" /> </h4>
-	</c:if>
+	</c:if>	
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------- -->	
+
+<!--------------------------------------------------------------- UPDATE ORDER FORM ------------------------------------------------------------->
+<div class="output-table-menu" >
+	<c:if test="${not empty requestScope.singleOrder}">	
 	
+	<form class="addOrderForm" action="Controller" method="get">	
+		<input type="hidden" name="command" value="update_order" /> 
+		<input type="hidden" name="idUser" value="${sessionScope.id}" /> 
+		<input type="hidden" name="id" value="${requestScope.singleOrder.id}" /> 
+		
+		<table border="1">
+		<caption><fmt:message key="editOrder"/>  </caption>
+		 	<%-- <jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
+		 	 --%><tr>
+		 		<td><fmt:message key="city_departure"/>:</td>
+		 		<td>
+				 	<select name="city_departure" style="background: #008080">
+				 		<option selected value="${requestScope.singleOrder.departure.id}">${requestScope.singleOrder.departure.cityName}</option>
+				 		<c:forEach var="city_dep" items="${cityService.getAllCity()}">
+				 			<option value="${city_dep.id}" > ${city_dep.cityName} </option>
+				 		</c:forEach>
+				  	</select>
+		 		</td>
+		 	</tr>
+		 		
+		 	<tr>
+		 		<td><fmt:message key="city_destination"/>:</td>
+		 		<td>
+				 	<select name="city_destination" style="background: #008080">
+				 	<option selected value="${requestScope.singleOrder.destination.id}">${requestScope.singleOrder.destination.cityName}</option>
+				 		<c:forEach var="city_des" items="${cityService.getAllCity()}">
+				 			<option value="${city_des.id}" > ${city_des.cityName} </option>
+				 		</c:forEach>
+				 	</select>
+		 		</td>
+		 	</tr>
+		 	
+		 	<tr>
+		 		<td><fmt:message key="timeDate"/>:</td>	
+		 		<td>
+					<input type="text" name="time_departure" value="${requestScope.singleOrder.timeDeparture}">
+				</td>
+		 	</tr>
+		 	
+		 	<tr>
+		 		<td><fmt:message key="count_pass"/>:</td>	
+		 		<td>
+					<input type="text" name="count_passenger" value="${requestScope.singleOrder.countPassenger}">
+				</td>
+			</tr>		 
+		</table>
+	
+		<input class="small-button" type="submit" value="<fmt:message key="save"/>"/>				
+	</form>
+	</c:if>
+</div>
+<!----------------------------------------------------------------------------------------------------------------------------------------  -->
+
+
+<jsp:include page="/WEB-INF/jsp/error/ClientError.jsp"/>
+
 </body>
 </html>
