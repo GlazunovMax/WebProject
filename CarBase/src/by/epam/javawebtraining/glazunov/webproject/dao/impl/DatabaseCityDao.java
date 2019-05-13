@@ -61,8 +61,8 @@ public class DatabaseCityDao implements CityDao {
 		} catch (ConnectionPoolException e1) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
 		} finally {
-			closeResultSet(resultSet);
-			closeStatement(statement);
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closeStatement(statement);
 		}
 
 		return cities;
@@ -144,8 +144,8 @@ public class DatabaseCityDao implements CityDao {
 		} catch (ConnectionPoolException e) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e);
 		}finally {
-			closeResultSet(resultSet);
-			closePreparedStatement(statement);
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closeStatement(statement);
 		}
 		return city;
 

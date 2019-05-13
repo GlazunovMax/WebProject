@@ -46,6 +46,8 @@ public class DaoSource {
 		PreparedStatement statement = null;
 
 		try (Connection connection = connectionPool.takeConnection()) {
+			
+			
 			statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
 			statement.executeUpdate();

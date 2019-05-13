@@ -30,7 +30,7 @@ import by.epam.javawebtraining.glazunov.webproject.entity.User;
  * @author Glazunov
  * @version 1.0
  */
-public class DatabaseRouteDao implements RouteDao {
+public class DatabaseRouteDao implements RouteDao {//??????getAll()
 	private static Logger LOGGER = Logger.getLogger(DatabaseRouteDao.class);
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_PATTERN);
 	
@@ -41,13 +41,13 @@ public class DatabaseRouteDao implements RouteDao {
 	 * @throws DaoException if can't get all routes
 	 */
 	@Override
-	public List<Route> getAll() throws DaoException {
+	public List<Route> getAll(int offset, int countRows) throws DaoException {
 		List<Route> routes = new ArrayList<>();
 
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
 		
-		Statement statement = null;
+		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 
 		Route route = null;
@@ -58,8 +58,12 @@ public class DatabaseRouteDao implements RouteDao {
 		City destination = null;
 
 		try (Connection connection = connectionPool.takeConnection()) {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(SQL_SELECT_ALL_ROUTES);
+			statement = connection.prepareStatement(SQL_SELECT_ALL_ROUTES);
+			
+			statement.setInt(1, offset); //8
+			statement.setInt(2, countRows);//8
+			resultSet = statement.executeQuery();
+			
 
 			while (resultSet.next()) {
 				route = new Route();
@@ -119,7 +123,7 @@ public class DatabaseRouteDao implements RouteDao {
 	 *  @throws DaoException - if can't get all the ROUTES owned by the specific driver
 	 */
 	@Override
-	public List<Route> getRouteById(long id) throws DaoException { // return  routes for Drivers(user_id)
+	public List<Route> getRouteById(long id, int offset, int countRows) throws DaoException { // return  routes for Drivers(user_id)
 		List<Route> routes = new ArrayList<>();
 
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -138,6 +142,9 @@ public class DatabaseRouteDao implements RouteDao {
 		try (Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_ALL_ROUTES_BY_ID);
 			statement.setLong(1, id);
+			statement.setInt(2, offset); //8
+			statement.setInt(3, countRows);
+			
 			resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
@@ -283,4 +290,10 @@ public class DatabaseRouteDao implements RouteDao {
 		DaoSource.edit(id, name, SQL_EDIT_MARK_ROUTE, EDIT_MARK_ROUTE_EXCEPTION);
 	}
 
+	/*@Override
+	public List<Route> getAll() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+*/
 }

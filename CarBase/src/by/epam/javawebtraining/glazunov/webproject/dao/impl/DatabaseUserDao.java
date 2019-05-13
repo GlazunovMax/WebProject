@@ -80,7 +80,7 @@ public class DatabaseUserDao implements UserDao {
 			throw new DaoException(MESSAGE_SIGH_IN_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e);
-		} finally {
+		} finally {	
 			ResourceClose.closeResultSet(resultSet);
 			ResourceClose.closePreparedStatement(statement);
 			ResourceClose.closeConnection(connection);
@@ -164,11 +164,6 @@ public class DatabaseUserDao implements UserDao {
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
 		
-		try {
-			connectionPool.initPoolData();
-		} catch (ConnectionPoolException e2) {
-			e2.printStackTrace();
-		}
 		
 		Statement statement = null;
 		PreparedStatement preparedStatement = null;

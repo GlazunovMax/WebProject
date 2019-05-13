@@ -3,7 +3,7 @@ package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 public class SomeConstant {
 
 	//DATABASE_CAR_DAO //RESOURCE_CLOSE
-	public static final String SQL_SELECT_ALL_CAR = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id";
+	public static final String SQL_SELECT_ALL_CAR = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id LIMIT ?,?";//WHERE car_condition.status_car = 'GOOD'
 	public static final String SQL_TRANSACTION_VARIABLE = "SET @car_condition_id = 0";
 	public static final String SQL_SELECT_TRANSACTION_CONDITION_CAR = "SELECT id INTO @car_condition_id FROM car_condition WHERE status_car = ?";
 	public static final String SQL_INSERT_CAR_TRANSACTION = "INSERT INTO cars(mark, car_number, car_condition_id) VALUES(?, ?, @car_condition_id);";
@@ -11,7 +11,7 @@ public class SomeConstant {
 	public static final String SQL_SELECT_DRIVERS = "SELECT users_has_cars.users_id, users_has_cars.cars_id, users.id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id  INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN roles ON users.role_id = roles.id WHERE cars_id = ?";
 	public static final String SQL_SELECT_CARS_BY_ID_DRIVER = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE users_has_cars.users_id = ? limit ?,?";
 	public static final String SQL_EDIT_CAR_CONDITION = "UPDATE cars SET cars.car_condition_id = (SELECT car_condition.id FROM car_condition WHERE car_condition.status_car = ?) WHERE cars.id = ?";
-	
+		
 	public static final String ID = "id";
 	public static final String MARK = "mark";
 	public static final String CAR_NUMBER = "car_number";
@@ -74,7 +74,7 @@ public class SomeConstant {
 	public static final String SQL_SELECT_TRANSACTION_ROLE = "SELECT id INTO @role_id FROM roles WHERE title =?";
 	public static final String SQL_INSERT_USER_TRANSACTION = "INSERT INTO users(name, surname, login, password, phone, role_id) VALUES(?, ?, ?, ?, ?, @role_id)";
 	public static final String SQL_SELECT_ALL_DRIVERS = "SELECT users.id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM users INNER JOIN roles ON users.role_id = roles.id WHERE roles.title = 'driver'";
-	public static final String SQL_SELECT_ALL_ORDERS_WITHOUT_ROUTE = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE orders.id NOT IN(SELECT routes.orders_id FROM routes)";
+	public static final String SQL_SELECT_ALL_ORDERS_WITHOUT_ROUTE = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE orders.id NOT IN(SELECT routes.orders_id FROM routes) LIMIT ?,?";
 	public static final String SQL_SELECT_ORDER_BY_ID = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE orders.id = ?";
 	public static final String SQL_SELECT_DRIVERS_CAR = "SELECT users_has_cars.users_id, users_has_cars.cars_id, cars.id, cars.mark, cars.car_number, car_condition.status_car FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE users_id = ?";
 	public static final String SQL_SELECT_USER_BY_ID = "SELECT users.id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM users INNER JOIN roles ON users.role_id = roles.id WHERE users.id = ?";
@@ -102,7 +102,7 @@ public class SomeConstant {
 	
 	//DATABASE_ORDER_DAO
 	public static final String SQL_SELECT_ALL_ORDERS = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id";
-	public static final String SQL_SELECT_ALL_ORDERS_BY_ID = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE users.id = ? ORDER BY orders.time_departure";
+	public static final String SQL_SELECT_ALL_ORDERS_BY_ID = "SELECT orders.id, dep.id as id_city_dep, dep.name as city_name_dep, city.id as id_city_des, city.name as city_name_des, orders.time_departure, orders.count_passenger, users.id as user_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE users.id = ? ORDER BY orders.time_departure LIMIT ?,?";
 	public static final String SQL_TRANSACTION_VARIABLE_ADD_ORDER = "SET @city_id_departure = 0, @city_id_destination = 0, @user_id = 0";
 	public static final String SQL_SELECT_TRANSACTION_CITY_DEPARTURE = "SELECT id INTO @city_id_departure FROM city WHERE name = ?";
 	public static final String SQL_SELECT_TRANSACTION_CITY_DESTINATION = "SELECT id INTO @city_id_destination FROM city WHERE name = ?;";
@@ -118,7 +118,7 @@ public class SomeConstant {
 	public static final String COUNT_PASSENGER = "count_passenger";
 	public static final String USER_ID = "user_id";
 	
-	public static final String GET_ALL_ORDERS_EXCEPTION = "Error! You cannot get all orders!";
+	public static final String GET_ALL_ORDERS_WITHOT_ROUTE_EXCEPTION = "Error! You cannot get all orders Without Route!";
 	public static final String GET_ALL_ORDERS_EXCEPTION_BY_ID = "Error! You cannot get all orders by id!";
 	public static final String ADD_ORDER_EXCEPTION = "Error adding order!";
 	public static final String REMOVE_ORDER_EXCEPTION = "Error remove order by id!";
@@ -134,8 +134,8 @@ public class SomeConstant {
 	
 	
 	//DATABASE_ROUTE_DAO
-	public static final String SQL_SELECT_ALL_ROUTES = "SELECT routes.id, routes.orders_id, dep.id AS id_city_dep, dep.name AS city_name_dep, city.id AS id_city_des, city.name AS city_name_des, orders.time_departure, orders.count_passenger, orders.users_id AS client_id, users.name AS c_name, users.surname as c_surname, users.login AS c_login, users.password AS c_password, users.phone as c_phone, roles.title as c_title, routes.users_id AS driver_id, driv.name AS d_name, driv.surname AS d_surname, driv.login AS d_login, driv.password AS d_password, driv.phone AS d_phone, rol.title AS d_title, routes.done FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id";
-	public static final String SQL_SELECT_ALL_ROUTES_BY_ID = "SELECT routes.id, routes.orders_id, dep.id AS id_city_dep, dep.name AS city_name_dep, city.id AS id_city_des, city.name AS city_name_des, orders.time_departure, orders.count_passenger, orders.users_id AS client_id, users.name AS c_name, users.surname as c_surname, users.login AS c_login, users.password AS c_password, users.phone as c_phone, roles.title as c_title, routes.users_id AS driver_id, driv.name AS d_name, driv.surname AS d_surname, driv.login AS d_login, driv.password AS d_password, driv.phone AS d_phone, rol.title AS d_title, routes.done FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id WHERE routes.users_id = ?";
+	public static final String SQL_SELECT_ALL_ROUTES = "SELECT routes.id, routes.orders_id, dep.id AS id_city_dep, dep.name AS city_name_dep, city.id AS id_city_des, city.name AS city_name_des, orders.time_departure, orders.count_passenger, orders.users_id AS client_id, users.name AS c_name, users.surname as c_surname, users.login AS c_login, users.password AS c_password, users.phone as c_phone, roles.title as c_title, routes.users_id AS driver_id, driv.name AS d_name, driv.surname AS d_surname, driv.login AS d_login, driv.password AS d_password, driv.phone AS d_phone, rol.title AS d_title, routes.done FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id LIMIT ?,?";
+	public static final String SQL_SELECT_ALL_ROUTES_BY_ID = "SELECT routes.id, routes.orders_id, dep.id AS id_city_dep, dep.name AS city_name_dep, city.id AS id_city_des, city.name AS city_name_des, orders.time_departure, orders.count_passenger, orders.users_id AS client_id, users.name AS c_name, users.surname as c_surname, users.login AS c_login, users.password AS c_password, users.phone as c_phone, roles.title as c_title, routes.users_id AS driver_id, driv.name AS d_name, driv.surname AS d_surname, driv.login AS d_login, driv.password AS d_password, driv.phone AS d_phone, rol.title AS d_title, routes.done FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id WHERE routes.users_id = ? LIMIT ?,?";
 	public static final String SQL_TRANSACTION_VARIABLE_ADD_ROUTE = "SET @orders_id = 0, @users_id = 0";
 	public static final String SQL_SELECT_TRANSACTION_ORDERS = "SELECT id INTO @orders_id FROM orders WHERE id = ?";
 	public static final String SQL_SELECT_TRANSACTION_USERS = "SELECT id INTO @users_id FROM users WHERE id = ?";
@@ -177,7 +177,7 @@ public class SomeConstant {
 
 	//VALIDATION
 	public static final String MESSAGE_ERROR_EMPTY_CAR = "Warning!!! The search has not given any results!";
-	public static final String MESSAGE_ERROR_CAR_IS_EMPTY = "!Passed parameter Car is empty!! ";
+	public static final String MESSAGE_ERROR_CAR_IS_EMPTY = "Passed parameter Car is empty!!";
 	public static final String MESSAGE_ERROR_EMPTY_CITY = "Warning!!! The search all cities has not given any results!";
 	public static final String MESSAGE_ERROR_CITY_IS_EMPTY = "Passed parameter City is empty!! ";
 	public static final String MESSAGE_ERROR_EMPTY_ORDER = "Warning!!! The search all orders has not given any results!";
@@ -193,7 +193,7 @@ public class SomeConstant {
 	public static final String MESSAGE_ERROR_ROLE = "Incorect role";
 	public static final String MESSAGE_ERROR_USER = "Passed parameter User is empty!!";
 	public static final String MESSAGE_ERROR_FORMAT_PHONE = "Incorect format phone number!";
-	public static final String MEESAGE_ERROR_DATE_FORMAT = "Incorect date format! Need like this - 'yyyy-MM-dd HH:mm' ";
+	public static final String MEESAGE_ERROR_DATE_FORMAT = "Incorect date format! Need like this - 'yyyy-MM-dd HH:mm'";
 	public static final String MESSAGE_ERROR_ID = "Incorect id for removing!!!";
 
 	
@@ -203,21 +203,19 @@ public class SomeConstant {
 	public static final String REDIRECT_PATH_TO_DISPATCHER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DISPATCHER&AddCarSuccess=Car successful added!";
 	public static final String ERROR_ADD_CAR = "errorAddCar";
 	public static final String PATH_TO_DISPATCHER_JSP = "/WEB-INF/jsp/Dispatcher.jsp";
-
+	public static final String CAR_MARK = "car_mark";
+	
 	//AddOrder
 	public static final String CITY_DEPARTURE = "city_departure";
 	public static final String CITY_DESTINATION = "city_destination";
-	//private static final String ID = "id";
-	//private static final String TIME_DEPARTURE = "time_departure";
-	//private static final String COUNT_PASSENGER = "count_passenger";
 	public static final String ERROR_ADD_ORDER = "errorAddOrder";
 	public static final String PATH_TO_CLIENT_JSP = "/WEB-INF/jsp/Client.jsp";
 	public static final String REDIRECT_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&AddOrderSuccess=Order successful added!";
 	public static final String LOCAL_DATE_TIME_PATTERN_ADD_ORDER = "yyyy-MM-dd HH:mm";
-
+	public static final String MEESAGE_ERROR_TYPE_COUNT_FORMAT = "Input field is empty or not of type int!";
+	
 	//AddRoute
 	public static final String ID_ORDER = "idOrder";
-	//private static final String DRIVER_ID = "driver_id";
 	public static final String PATH_ADD_ROUTE_TO_DISPATCHER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DISPATCHER&addRouteSuccess=Route successful added!";
 	public static final String ERROR_ADD_ROUTE = "errorAddRoute";
 	public static final String PATH_ADD_ROUTE_TO_CREATE_ROUTE_DISPATCHER_JSP = "/WEB-INF/jsp/CreateRouteDispatcher.jsp";
@@ -226,97 +224,112 @@ public class SomeConstant {
 	public static final String LOCALE = "locale";
 	public static final String PAGE = "page";
 	public static final String LANGUAGE = "language";
+	public static final String PATH_TO_JSP = "/WEB-INF/jsp";
+	public static final String DELIMETR = "/";
+	public static final String INDEX_JSP = "index.jsp";
 
+	//GetAllCar
+	public static final String MESSAGE_CARS_LIST_EMPTY = "messageCarsListEmpty";
+	public static final String MESSAGE_IF_CARS_LIST_EMPTY = "You have no cars!";
+	public static final String ERROR_GET_ALL_CAR = "errorGetAllCar";
+	public static final String CARS_LIST = "carsList";
+	public static final String COUNT_ROWS = "countRows";
+	public static final String CURRENT_PAGE = "currentPage";
+	
+	//GetAllCarByIdDriver
+	public static final String ERROR_GET_ALL_CAR_BY_ID_DRIVER = "errorGetAllCarByIdDriver";
+	
 	//CreateRoute
-	//public static final String ID = "id";
-	//public static final String ID_ORDER = "idOrder";
+	public static final String ERROR_ORDER_BY_ID = "errorOrderById";
+	public static final String ORDER_HINT = "orderHint";
 	public static final String PATH_CREATE_ROUTE_TO_CREATE_ROUTE_DISPATCHER_JSP = "/WEB-INF/jsp/CreateRouteDispatcher.jsp";
 
 	//EditCarCondition
 	public static final String ERROR_EDIT_CAR_CONDITION = "errorEditCarCondition";
-	//private static final String ID = "id";
 	public static final String SELECT_STATUS_CAR = "select_status_car";
 	public static final String PATH_REDIRECT_EDIT_CAR_CONDITION_TO_DRIVER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DRIVER&editCarConditionSuccess=Car condition was successfully edited!";
 	public static final String PATH_FORWARD_EDIT_CAR_CONDITION_TO_DRIVER_JSP = "/WEB-INF/jsp/Driver.jsp";
 
 	//EditMarkRoute
 	public static final String ERROR_EDIT_MARK_ROUTE = "errorEditMarkRoute";
-	//private static final String ID = "id";
 	public static final String SELECT_MARK = "select_mark";
 	public static final String PATH_FORWARD_EDIT_MARK_ROUTE_TO_DRIVER_JSP = "/WEB-INF/jsp/Driver.jsp";
 	public static final String PATH_REDIRECT_EDIT_MARK_ROUTE_TO_DRIVER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DRIVER&editMarkRouteSuccess=Mark route was successfully edited!";
 
+	//GetAllOrderWithoutRoute
+	public static final String MESSAGE_ORDERS_LIST_EMPTY = "messageOrdersListEmpty";
+	public static final String MESSAGE_IF_ORDERS_LIST_EMPTY = "You have no orders!";
+	public static final String ERROR_GET_ALL_ORDER_WITHOUT_ROUTE = "errorGetAllOrderWithoutRoute";
+
 	//GetAllOrderByID
-	//private static final String ID = "id";
 	public static final String ORDER_LIST = "orderList";
 	public static final String USER_ID_PAR = "userId";
-	//private static final String PATH_TO_CLIENT_JSP = "/WEB-INF/jsp/Client.jsp";
 	public static final String MESSAGE_ORDER_LIST_EMPTY = "messageOrderListEmpty";
-	public static final Object MESSAGE_IF_ORDER_LIST_EMPTY = "You have no orders!";
+	public static final String MESSAGE_IF_ORDER_LIST_EMPTY = "You have no orders!";
 	public static final String ERROR_ORDER_LIST = "errorOrderListEmpty";
-
+	
+	//GoToAddOrder
+	public static final String MESSAGE_FOR_ADD_ROUTE = "addNewOrder";
+	
 	//GetAllRouteByID
-	//private static final String ID = "id";
 	public static final String PATH_TO_DRIVER_JSP = "/WEB-INF/jsp/Driver.jsp";
 	public static final String ROUTE_LIST = "routeList";
 	public static final String MESSAGE_ROUTE_LIST_EMPTY = "messageRouteListEmpty";
-	public static final Object MESSAGE_IF_ROUTE_LIST_EMPTY = "You have no routes!";
-	public static final String ERROR_ROUTE_LIST = "errorRouteListEmpty";
+	public static final String MESSAGE_IF_ROUTE_LIST_EMPTY = "You have no routes!";
+	public static final String ERROR_GET_ALL_ROUTE = "errorGetAllRoute";
+
+	//GoToRegistration
+	public static final String ROLE_REGISTR = "roleRegistr";
 
 	//logout
 	public static final String PATH_TO_INDEX_JSP = "index.jsp";
 
 	//Registration
-		//private static final String NAME = "name";
-		//private static final String SURNAME = "surname";
-		//private static final String PASSWORD = "password";
-		//private static final String LOGIN = "login";
-		//private static final String PHONE = "phone";
 	public static final String ROLE = "role";
 	public static final String ERROR_REGISTRATION = "errorRegistration";
 	public static final String USER = "user";
-	//private static final String PATH_TO_CLIENT_JSP = "WEB-INF/jsp/Client.jsp";
-	public static final String PATH_TO_REGISTRATION_JSP = "Registration.jsp";
+	public static final String PATH_TO_REGISTRATION_JSP = "/WEB-INF/jsp/Registration.jsp";
 
+	//RemoveCar
+	public static final String ERROR_CAR_REMOVE = "errorCarRemove";
+	public static final String MESSAGE_ERROR_CAR_REMOVE = "Cannot delete car!";
+	public static final String REMOVE_CAR_REDIRECT_PATH_TO_DISPATCHER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DISPATCHER&removeCarSuccess=Car successful removed!";
+	
 	//RemoveOrder
 	public static final String ERROR_ORDER_REMOVE = "ErrorOrderRemove";
-	public static final Object MESSAGE_ERROR_ORDER_REMOVE = "Cannot delete order!";
-	//private static final String ID = "id";
-	//private static final String PATH_TO_CLIENT_JSP = "/WEB-INF/jsp/Client.jsp";
+	public static final String MESSAGE_ERROR_ORDER_REMOVE = "Cannot delete order!";
 	public static final String REMOVE_ORDER_REDIRECT_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&removeOrderSuccess=Order successful removed!";
 
 	//RemoveRoute
 	public static final String ERROR_ROUTE_REMOVE = "ErrorRouteRemove";
 	public static final String MESSAGE_ERROR_ROUTE_REMOVE = "Cannot delete route!";
-	//private static final String ID = "id";
-	//private static final String PATH_TO_DISPATCHER_JSP = "/WEB-INF/jsp/Dispatcher.jsp";
 	public static final String REMOVE_ROUTE_REDIRECT_PATH_TO_DISPATCHER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=DISPATCHER&removeRouteSuccess=Route successful removed!";
 
 	//SelectPage
 	public static final String ADD_ORDER_SUCCESS = "AddOrderSuccess";
 	public static final String REMOVE_ORDER_SUCCESS = "removeOrderSuccess";
 	public static final String CLIENT = "CLIENT";
-		//private static final String ID = "id";
 	public static final String DRIVER = "DRIVER";
 	public static final String DISPATCHER = "DISPATCHER";
-		//private static final String PATH_TO_CLIENT_JSP = "/WEB-INF/jsp/Client.jsp";
-		//private static final String PATH_TO_DRIVER_JSP = "/WEB-INF/jsp/Driver.jsp";
-		//private static final String PATH_TO_DISPATCHER_JSP = "/WEB-INF/jsp/Dispatcher.jsp";
-		//private static final String PAGE = "page";
-
+		
+	//ShowEditOrderForm
+	public static final String SINGLE_ORDER = "singleOrder";
+	public static final String ERROR_GET_ORDER_BY_ID = "errorGetOrderById";
+	public static final String ERROR_SHOW_EDIT_ORDER_FORM = "Could not find order!";
+	
 	//SingIn
-		//private static final String PASSWORD = "password";
-		//private static final String LOGIN = "login";
-		//private static final String USER = "user";
-		//private static final String ID = "id";
 	public static final String USER_NAME = "userName";
 	public static final String USER_SURNAME = "userSurname";
 	public static final String PATH_TO_DEFINE_PAGE_BY_ROLE_JSP = "WEB-INF/jsp/DefinePageByRole.jsp";
-	public static final String PATH_TO_SING_IN_JSP = "SingIn.jsp";
+	public static final String PATH_TO_SING_IN_JSP = "/WEB-INF/jsp/SingIn.jsp";
 	public static final String ERROR_SING_IN = "errorSingIn";
-	public static final Object MESSAGE_IF_ERROR_SING_IN = "User not registered!";
+	public static final String MESSAGE_IF_ERROR_SING_IN = "User not registered!";
 	public static final String ERROR_DATA = "errorData";
-	public static final Object MESSAGE_IF_ERROR_DATA = "wrong password or login!";
+	public static final String MESSAGE_IF_ERROR_DATA = "wrong password or login!";
 
+	//UpdateOrder
+	public static final String ERROR_UPDATE_ORDER = "errorUpdateOrder";
+	public static final String REDIRECT_UPDATE_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&UpdateOrderSuccess=Order successful updated!";
+	public static final String ID_USER = "idUser";
 
 }

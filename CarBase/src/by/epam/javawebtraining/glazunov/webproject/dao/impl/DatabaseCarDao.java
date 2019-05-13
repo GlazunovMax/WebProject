@@ -30,6 +30,8 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  * @version 1.0
  */
 public class DatabaseCarDao implements CarDao {
+	private static final String SQL_INSERT_CAR_WITH_DRIVERS = "INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, (SELECT id FROM cars WHERE cars.mark = ?))";//"INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, ?)";
+	private static final String ADD_CARS_FOR_DRIVER_EXCEPTION = "Error adding car for driver!";
 	private static Logger LOGGER = Logger.getLogger(DatabaseCarDao.class);
 	
 	
@@ -40,14 +42,14 @@ public class DatabaseCarDao implements CarDao {
 	 * @throws DaoException if can't get all cars
 	 */
 	@Override
-	public List<Car> getAll() throws DaoException {
+	public List<Car> getAll(int offset, int countRows) throws DaoException {
 		List<Car> cars = new ArrayList<>();
 		Set<User> drivers = new HashSet<>();
 
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
 		
-		Statement statement = null;
+		PreparedStatement statement = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		ResultSet resultSetUser = null;
@@ -55,9 +57,13 @@ public class DatabaseCarDao implements CarDao {
 		User driver = null;
 		
 		try (Connection connection = connectionPool.takeConnection()) {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(SQL_SELECT_ALL_CAR);
 
+			statement = connection.prepareStatement(SQL_SELECT_ALL_CAR);
+			
+			statement.setInt(1, offset); //8
+			statement.setInt(2, countRows);//8
+			resultSet = statement.executeQuery();
+			
 			while (resultSet.next()) {
 				car = new Car();
 
@@ -95,8 +101,9 @@ public class DatabaseCarDao implements CarDao {
 		} catch (ConnectionPoolException ex) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, ex);
 		} finally {
-			closeResultSet(resultSetUser);
-			ResourceClose.closeStatement(statement);
+			ResourceClose.closeResultSet(resultSetUser);
+			ResourceClose.closePreparedStatement(preparedStatement);
+			ResourceClose.closePreparedStatement(statement);
 		}
 		return cars;
 	}
@@ -117,9 +124,11 @@ public class DatabaseCarDao implements CarDao {
 		PreparedStatement preparedStatementVar = null;
 		PreparedStatement preparedStatementConditionCar = null;
 		PreparedStatement preparedStatementInsert = null;
-
+		
 		try {
 			connection = connectionPool.takeConnection();
+			
+			
 			connection.setAutoCommit(false);
 
 			// 1 - FIRST transaction
@@ -135,10 +144,44 @@ public class DatabaseCarDao implements CarDao {
 			preparedStatementInsert = connection.prepareStatement(SQL_INSERT_CAR_TRANSACTION);
 			preparedStatementInsert.setString(1, car.getMark());
 			preparedStatementInsert.setString(2, car.getNumber());
+			//preparedStatementInsert.set(3, car.getUsers());
 			preparedStatementInsert.executeUpdate();
-
 			connection.commit();
+			//
+			/*System.out.println("=1");
+			
+			
+			preparedStatement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
+			for (User user : car.getUsers()) {
+				
+				System.out.println("=3");
+				preparedStatement.setLong(1, user.getId());
+				System.out.println("=4 " +user.getId());
+				preparedStatement.setString(2, car.getMark());
+				System.out.println("=5 " + car.getMark());
+				//preparedStatement.executeUpdate();
+				System.out.println("=7");
+				
+			}
+			System.out.println("=6");
+			preparedStatement.executeUpdate();
+			*/
+			//connection.commit();
 
+		/*	for (User user : car.getUsers()) {
+				//connection.setAutoCommit(false);
+
+				preparedStatement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
+				
+				preparedStatement.setLong(1, user.getId());
+				preparedStatement.setLong(2, car.getId());
+				preparedStatement.executeUpdate();
+				//connection.commit();
+				
+				
+			}*/
+			
+			
 		} catch (SQLException e) {
 			try {
 				connection.rollback();
@@ -154,7 +197,6 @@ public class DatabaseCarDao implements CarDao {
 			ResourceClose.closePreparedStatement(preparedStatementConditionCar);
 			ResourceClose.closePreparedStatement(preparedStatementVar);
 			ResourceClose.closeConnectionWithCommit(connection);
-
 		}
 
 	}
@@ -177,14 +219,9 @@ public class DatabaseCarDao implements CarDao {
 	 *  @throws DaoException - if can't get all the cars owned by the specific driver
 	 */
 	
-	
-	/*private int countRowsGetAllByIdDriver;// = 4;
-	public int getCountRowsGetAllByIdDriver() {
-		return countRowsGetAllByIdDriver;
-    }*/
 
 	@Override
-	public Set<Car> getAllCarByIdDriver(long id, int offset, int countRows) throws DaoException {//8
+	public Set<Car> getAllCarByIdDriver(long id, int offset, int countRows) throws DaoException {
 		
 		Set<Car> cars = new HashSet<>();
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -196,8 +233,8 @@ public class DatabaseCarDao implements CarDao {
 		try(Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_CARS_BY_ID_DRIVER);
 			statement.setLong(1, id);//idDriver
-			statement.setInt(2, offset); //8
-			statement.setInt(3, countRows);//8
+			statement.setInt(2, offset); 
+			statement.setInt(3, countRows);
 			
 			resultSet = statement.executeQuery();
 			
@@ -217,8 +254,8 @@ public class DatabaseCarDao implements CarDao {
 		} catch (ConnectionPoolException e) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e);
 		}finally {
-			closeResultSet(resultSet);
-			closePreparedStatement(statement);
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closePreparedStatement(statement);
 		}
 		
 		return cars;
@@ -236,4 +273,32 @@ public class DatabaseCarDao implements CarDao {
 		DaoSource.edit(id, condition, SQL_EDIT_CAR_CONDITION, EDIT_CAR_CONDITION_EXCEPTION);	
 	}
 
+	@Override
+	public void addCarForDriver(Car car) throws DaoException {
+		if(!(car.getUsers().isEmpty() || car.getUsers() == null)){
+			
+			FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
+			ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
+	
+			PreparedStatement statement = null;
+		
+			try(Connection connection = connectionPool.takeConnection()) {
+				
+				statement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
+				for (User user : car.getUsers()) {
+					statement.setLong(1, user.getId());
+					statement.setString(2, car.getMark());
+					statement.executeUpdate();	
+				}
+			
+			} catch (SQLException e) {
+				throw new DaoException(ADD_CARS_FOR_DRIVER_EXCEPTION);
+			} catch (ConnectionPoolException e1) {
+				LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
+			}finally {
+				ResourceClose.closePreparedStatement(statement);
+			}
+		
+		}
+	}
 }

@@ -17,7 +17,7 @@ public interface OrderDao extends ItemDao<Order> {
 	 *  @param id - client's id
 	 *  @throws DaoException - if can't get all the orders owned by the specific client
 	 */
-	List<Order> getOrderById(Long id) throws DaoException;
+	List<Order> getOrderById(Long id, int offset, int countRows) throws DaoException;
 
 	/**
 	 * Get all orders from the DB which is not in the route ...(driver not assigned and not in Routes table)
@@ -25,7 +25,7 @@ public interface OrderDao extends ItemDao<Order> {
 	 * @return List of all orders which is not in the route
 	 * @throws DaoException if can't get all orders which is not in the route
 	 */
-	List<Order> getAllOrderWithoutRoute() throws DaoException;
+	List<Order> getAllOrderWithoutRoute(int offset, int countRows) throws DaoException;
 
 	/**
 	 * Get order from the DB by id.
@@ -35,5 +35,13 @@ public interface OrderDao extends ItemDao<Order> {
 	 * @throws DaoException if can't get order from the DB by id.
 	 */
 	Order getSingleOrderById(long id) throws DaoException;
-
+	
+	/**
+	 * Update order in the DB.
+	 * 
+	 * @param order - the order
+	 * @throws DaoException if can't update order in the DB.
+	 */
+	void updateOrder(Order order) throws DaoException;
+ 
 }

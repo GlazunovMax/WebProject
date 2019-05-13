@@ -2,11 +2,13 @@ package by.epam.javawebtraining.glazunov.webproject.dao.factory;
 
 import by.epam.javawebtraining.glazunov.webproject.dao.CarDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.CityDao;
+import by.epam.javawebtraining.glazunov.webproject.dao.CountRowDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.OrderDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.RouteDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.UserDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCarDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCityDao;
+import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCountRowsDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseOrderDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseRouteDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseUserDao;
@@ -34,6 +36,9 @@ public class DaoFactory {
 	
 	/** Creates a reference to the DatabaseRouteDao object class */
 	private final RouteDao routeDao = new DatabaseRouteDao();
+	
+	/** Creates a reference to the CountRowDao object class */
+	private final CountRowDao countRowDao = new DatabaseCountRowsDao();
 	
 
 	private DaoFactory(){}
@@ -84,6 +89,14 @@ public class DaoFactory {
 	 */
 	public RouteDao getRouteDao() {
 		return routeDao;
+	}
+
+	/**
+	 * Method to get a reference to the DatabaseCountRowDao object class {@link DaoFactory#countRowDao} 
+	 * @return a reference to the DatabaseRouteDao object class
+	 */
+	public CountRowDao getCountRowDao() {
+		return countRowDao;
 	}
 	
 	

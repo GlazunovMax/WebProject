@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.dao;
 
+import java.util.List;
+
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
 
@@ -16,4 +18,14 @@ public interface CityDao extends ItemDao<City> {
 	 *  @throws DaoException - if can't get city by id
 	 */
 	City getCityById(long id) throws DaoException;
+	
+
+	/**
+	 * Get all City from the DB.
+	 * 
+	 * @return List of all City
+	 * @throws DaoException if can't get all City
+	 */
+	List<City> getAll() throws DaoException;
+	
 }

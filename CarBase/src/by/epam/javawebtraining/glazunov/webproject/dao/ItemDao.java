@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -23,14 +22,6 @@ import by.epam.javawebtraining.glazunov.webproject.entity.Model;
 public interface ItemDao<T extends Model> {
 	static Logger LOGGER = Logger.getLogger(ItemDao.class);
 
-	/**
-	 * Get all <T> from the DB.
-	 * 
-	 * @return List of all <T>
-	 * @throws DaoException if can't get all <T>
-	 */
-	List<T> getAll() throws DaoException;
-	
 	/**
 	 * Add the item to the database.
 	 * 
@@ -51,7 +42,7 @@ public interface ItemDao<T extends Model> {
 	
 	
 	
-	default void closeResultSet(ResultSet resultSet) {
+	/*default void closeResultSet(ResultSet resultSet) {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -105,6 +96,6 @@ public interface ItemDao<T extends Model> {
 		} catch (SQLException e) {
 			LOGGER.error(CONNECTION_CLOSED_EXCEPTION);
 		}
-	}
+	}*/
 
 }

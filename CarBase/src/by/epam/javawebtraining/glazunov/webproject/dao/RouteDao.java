@@ -17,7 +17,7 @@ public interface RouteDao extends ItemDao<Route> {
 	 *  @param id - driver's id
 	 *  @throws DaoException - if can't get all the ROUTES owned by the specific driver
 	 */
-	List<Route> getRouteById(long id) throws DaoException;
+	List<Route> getRouteById(long id, int offset, int countRows) throws DaoException;
 	
 	/**
 	 * The driver changes the route performance mark.
@@ -27,6 +27,8 @@ public interface RouteDao extends ItemDao<Route> {
 	 * 
 	 * @throws DaoException - if can't change the route performance mark.
 	 */
-	void editMarkRoute(long id, String mark) throws DaoException;	
+	void editMarkRoute(long id, String mark) throws DaoException;
+	
+	List<Route> getAll(int offset, int countRows) throws DaoException; 
 	
 }

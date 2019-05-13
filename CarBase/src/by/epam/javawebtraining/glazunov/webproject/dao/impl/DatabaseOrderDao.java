@@ -34,19 +34,11 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
   */
 public class DatabaseOrderDao implements OrderDao {
 	private static final String LOCAL_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	private static final String SQL_UPDATE_ORDER_BY_ID = "UPDATE orders SET orders.city_id_departure=(SELECT id FROM city WHERE name = ?), orders.city_id_destination=(SELECT id FROM city WHERE name = ?), orders.time_departure = ?, orders.count_passenger=? WHERE orders.id = ?";
+	private static final String UPDATE_ORDER_EXCEPTION = "Error! You cannot update order!";;
 	private static Logger LOGGER = Logger.getLogger(DatabaseOrderDao.class);
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_PATTERN);
 	
-	/**
-	 * Get all orders from the DB.
-	 * 
-	 * @return List of all orders
-	 * @throws DaoException if can't get all orders
-	 */
-	@Override
-	public List<Order> getAll() throws DaoException {
-		return getAllOrderByCondition(SQL_SELECT_ALL_ORDERS, GET_ALL_ORDERS_EXCEPTION);
-	}
 
 	/**
 	 * Get all orders from the DB which is not in the route ...(driver not assigned and not in Routes table)
@@ -55,86 +47,7 @@ public class DatabaseOrderDao implements OrderDao {
 	 * @throws DaoException if can't get all orders which is not in the route
 	 */
 	@Override
-	public List<Order> getAllOrderWithoutRoute() throws DaoException {
-		return getAllOrderByCondition(SQL_SELECT_ALL_ORDERS_WITHOUT_ROUTE, GET_ALL_ORDERS_EXCEPTION);
-	}
-	
-	/**
-	 * General method for 
-	 * @see DatabaseOrderDao#getAllOrderWithoutRoute()
-	 *  and 
-	 * @see DatabaseOrderDao#getAll()
-	 * 
-	 * @param sql - query the database
-	 * @param exceptionMessage
-	 * @return List orders
-	 * @throws DaoException
-	 */
-	private List<Order> getAllOrderByCondition(String sql, String exceptionMessage) throws DaoException {
-		List<Order> orders = new ArrayList<>();
-		
-		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
-		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
-
-		Statement statement = null;
-		ResultSet resultSet = null;
-	
-		Order order = null;
-		City departure = null;
-		City destination = null;
-		User user = null;
-		
-		try(Connection connection = connectionPool.takeConnection()) {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
-			
-			while (resultSet.next()) {
-				order = new Order();
-				departure = new City();
-				destination = new City();
-				user = new User();
-				
-				order.setId(resultSet.getLong(ID));
-					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-					departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE));
-				order.setDeparture(departure);
-					destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-					destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-				order.setDestination(destination);
-				order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
-				order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-					user.setId(resultSet.getLong(USER_ID));
-					user.setName(resultSet.getString(NAME));
-					user.setSurname(resultSet.getString(SURNAME));
-					user.setLogin(resultSet.getString(LOGIN));
-					user.setPassword(resultSet.getString(PASSWORD));
-					user.setPhoneNumber(resultSet.getString(PHONE));
-					user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				order.setUser(user);
-				//route
-				orders.add(order);
-				
-			}	
-		} catch (SQLException e) {
-			throw new DaoException(exceptionMessage);
-		} catch (ConnectionPoolException e1) {
-			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
-		} finally {
-			ResourceClose.closeResultSet(resultSet);
-			ResourceClose.closeStatement(statement);
-		}
-		return orders;
-		
-	}
-	
-	/**
-	 * Get all the orders owned by the specific client.
-	 *  
-	 *  @param id - client's id
-	 *  @throws DaoException - if can't get all the orders owned by the specific client
-	 */
-	@Override
-	public List<Order> getOrderById(Long id) throws DaoException {// такой в routr
+	public List<Order> getAllOrderWithoutRoute(int offset, int countRows) throws DaoException {
 		List<Order> orders = new ArrayList<>();
 		
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -150,9 +63,10 @@ public class DatabaseOrderDao implements OrderDao {
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			
-			statement = connection.prepareStatement(SQL_SELECT_ALL_ORDERS_BY_ID);
+			statement = connection.prepareStatement(SQL_SELECT_ALL_ORDERS_WITHOUT_ROUTE);
 			
-			statement.setLong(1, id);
+			statement.setInt(1, offset); 
+			statement.setInt(2, countRows);
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
@@ -161,7 +75,6 @@ public class DatabaseOrderDao implements OrderDao {
 				departure = new City();
 				destination = new City();
 				user = new User();
-				System.out.println("!!");
 				
 				order.setId(resultSet.getLong(ID));
 					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
@@ -185,12 +98,83 @@ public class DatabaseOrderDao implements OrderDao {
 				orders.add(order);
 			}	
 		} catch (SQLException e) {
+			throw new DaoException(GET_ALL_ORDERS_WITHOT_ROUTE_EXCEPTION);
+		} catch (ConnectionPoolException e1) {
+			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
+		} finally {
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closeStatement(statement);
+		}
+		
+		return orders;	
+	}
+	
+	
+	/**
+	 * Get all the orders owned by the specific client.
+	 *  
+	 *  @param id - client's id
+	 *  @throws DaoException - if can't get all the orders owned by the specific client
+	 */
+	@Override
+	public List<Order> getOrderById(Long id, int offset, int countRows) throws DaoException {// такой в routr
+		List<Order> orders = new ArrayList<>();
+		
+		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
+		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
+		
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+	
+		Order order = null;
+		City departure = null;
+		City destination = null;
+		User user = null;
+		
+		try(Connection connection = connectionPool.takeConnection()) {
+			
+			statement = connection.prepareStatement(SQL_SELECT_ALL_ORDERS_BY_ID);
+			
+			statement.setLong(1, id);
+			statement.setInt(2, offset); 
+			statement.setInt(3, countRows);
+			resultSet = statement.executeQuery();
+			
+			while (resultSet.next()) {
+				
+				order = new Order();
+				departure = new City();
+				destination = new City();
+				user = new User();
+				
+				order.setId(resultSet.getLong(ID));
+					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
+					departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE)); 
+				order.setDeparture(departure);
+					destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
+					destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
+				order.setDestination(destination);
+				order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE),formatter));
+				order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
+					user.setId(resultSet.getLong(USER_ID));
+					user.setName(resultSet.getString(NAME));
+					user.setSurname(resultSet.getString(SURNAME));
+					user.setLogin(resultSet.getString(LOGIN));
+					user.setPassword(resultSet.getString(PASSWORD));
+					user.setPhoneNumber(resultSet.getString(PHONE));
+					user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
+				order.setUser(user);
+				
+				
+				orders.add(order);
+			}	
+		} catch (SQLException e) {
 			throw new DaoException(GET_ALL_ORDERS_EXCEPTION_BY_ID);
 		} catch (ConnectionPoolException e1) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
 		} finally {
-			closeResultSet(resultSet);
-			closePreparedStatement(statement);
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closeStatement(statement);
 		}
 		return orders;
 		
@@ -338,10 +322,39 @@ public class DatabaseOrderDao implements OrderDao {
 		} catch (ConnectionPoolException e1) {
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
 		} finally {
-			closeResultSet(resultSet);
-			closePreparedStatement(statement);
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closeStatement(statement);
 		}
 		return order;
+		
+	}
+
+	@Override
+	public void updateOrder(Order order) throws DaoException {
+		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
+		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
+		
+		PreparedStatement statement = null;
+		
+	
+		try(Connection connection = connectionPool.takeConnection()) {
+			statement = connection.prepareStatement(SQL_UPDATE_ORDER_BY_ID);
+			
+			statement.setString(1, order.getDeparture().getCityName());
+			statement.setString(2, order.getDestination().getCityName());
+			statement.setTimestamp(3, Timestamp.valueOf(order.getTimeDeparture()));
+			statement.setInt(4, order.getCountPassenger());
+			statement.setLong(5, order.getId());
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DaoException(UPDATE_ORDER_EXCEPTION);
+		} catch (ConnectionPoolException e) {
+			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e);
+		}finally {
+			ResourceClose.closePreparedStatement(statement);
+		}
 		
 	}
 
