@@ -5,6 +5,7 @@ import java.util.Set;
 
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
+import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 
 /**
@@ -62,4 +63,21 @@ public interface CarService {
 	 * @throws ServiceException - if can't change car condition
 	 */
 	void editCarCondition(long id, String condition) throws ServiceException;
+	
+	
+	/**
+	 * Add the cars driver.
+	 * 
+	 * @param driver - the driver
+	 * @throws ServiceException if can't Add cars driver.
+	 */
+	void addCarsDriver(User driver) throws ServiceException;
+	
+	/**
+	 * Get car by id.
+	 *  
+	 * @param id - car's id
+	 * @throws ServiceException - if can't get car by id
+	 */
+	Car getCarById(long id) throws ServiceException;
 }

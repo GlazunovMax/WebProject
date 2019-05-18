@@ -7,7 +7,7 @@ import by.epam.javawebtraining.glazunov.webproject.dao.CarDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.dao.factory.DaoFactory;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
-
+import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.CarService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 
@@ -20,6 +20,8 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  */
 public class CarServiceImpl implements CarService {
 	private static final String MESSAGE_ERROR_ADD_CAR_FOR_DRIVER = "Can`t add car for driver!!!";
+	private static final String MESSAGE_ERROR_ADD_CARS_DRIVER = "Can`t add cars driver!!!";
+	private static final String MESSAGE_ERROR_GET_CAR_BY_ID = "Error!!! Can`t get car by id!";
 	private DaoFactory factory = DaoFactory.getInstance();
 	private CarDao carDao = factory.getCarDao();
 	
@@ -130,6 +132,44 @@ public class CarServiceImpl implements CarService {
 			throw new ServiceException(MESSAGE_ERROR_EDIT_CAR_CONDITION, e);
 		}
 
+	}
+
+	/**
+	 * Add the cars driver. Which cars belongs to a specific driver.
+	 * 
+	 * @param driver - the driver
+	 * @throws ServiceException if can't add cars driver.
+	 */
+	@Override
+	public void addCarsDriver(User driver) throws ServiceException {
+		Validation.validateModel(driver);
+
+		try {
+			carDao.addCarsDriver(driver);
+		} catch (DaoException e) {
+			throw new ServiceException(MESSAGE_ERROR_ADD_CARS_DRIVER);
+		}
+	}
+
+	/**
+	 * Get car by id.
+	 *  
+	 * @param id - car's id
+	 * @throws ServiceException - if can't get car by id
+	 */
+	@Override
+	public Car getCarById(long id) throws ServiceException {
+		Car car = null;
+		
+		Validation.validId(id);
+		
+		try {
+			car = carDao.getCarById(id);
+		} catch (DaoException e) {
+			throw new ServiceException(MESSAGE_ERROR_GET_CAR_BY_ID, e);
+		}
+		
+		return car;
 	}
 
 

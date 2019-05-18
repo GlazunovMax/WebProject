@@ -271,7 +271,7 @@
 <!----------------------------------------------------------------------------------------------------->
 
 
-<!-- GET ALL DRIVERS -->
+<!-- --------------------------------GET ALL DRIVERS ---------------------------------------------->
 <c:if test="${not empty requestScope.listDriver}">
 <table border="1" bgcolor="#CD853F">
 	<caption><fmt:message key="drivers"/></caption>
@@ -283,7 +283,6 @@
 			<th><fmt:message key="driver_phone" /></th>
 			<th><fmt:message key="driver_role" /></th>
 			<th><fmt:message key="car_status" /></th>
-			<%-- <th><fmt:message key="to_appoint" /></th> --%>
 		</tr>
 		
 		
@@ -327,7 +326,7 @@
 </c:if>
 
 	
-<!-- ------------------------------------- -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------- -->
 
 
 
@@ -336,7 +335,9 @@
 <c:if test="${not empty requestScope.driver}">
 
 <form class="addForm" action="Controller" method="post">
-<input type="hidden" name="command" value="appoint_car" />
+<input type="hidden" name="command" value="add_cars_for_driver" />
+<input type="hidden" name="idDriver" value="${requestScope.driver.id}" />
+
 	<table border="1" bgcolor="#CD853F">
 		<caption><fmt:message key="drivers"/></caption>
 			

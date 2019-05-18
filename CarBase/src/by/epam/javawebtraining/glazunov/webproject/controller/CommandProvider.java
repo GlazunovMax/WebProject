@@ -5,6 +5,7 @@ import java.util.Map;
 
 import by.epam.javawebtraining.glazunov.webproject.command.Command;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddCar;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.AddCarsForDriver;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddOrder;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AppointCar;
@@ -63,6 +64,7 @@ public class CommandProvider {
 		commands.put(CommandName.REMOVE_CAR, new RemoveCar());
 		commands.put(CommandName.GET_ALL_DRIVER, new GetAllDriver());
 		commands.put(CommandName.APPOINT_CAR, new AppointCar());
+		commands.put(CommandName.ADD_CARS_FOR_DRIVER, new AddCarsForDriver());
 	}
 
 	public Command getCommand(String commandName) {

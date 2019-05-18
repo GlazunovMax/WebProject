@@ -6,6 +6,7 @@ import java.util.Set;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
+import by.epam.javawebtraining.glazunov.webproject.entity.User;
  
 /**
   * @author Glazunov
@@ -46,4 +47,19 @@ public interface CarDao extends ItemDao<Car> {
 	 */
 	void addCarForDriver(Car car) throws DaoException;
 	
+	/**
+	 * add cars drivers in DB.
+	 * 
+	 * @param driver - the driver
+	 * @throws DaoException if can't add cars drivers
+	 */
+	void addCarsDriver(User driver) throws DaoException;
+	
+	/**
+	 * Get car by id.
+	 *  
+	 *  @param id - car's id
+	 *  @throws DaoException - if can't get car by id
+	 */
+	Car getCarById(long id) throws DaoException;
 }

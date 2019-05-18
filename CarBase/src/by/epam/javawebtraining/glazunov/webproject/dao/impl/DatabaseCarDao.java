@@ -32,6 +32,8 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
 public class DatabaseCarDao implements CarDao {
 	private static final String SQL_INSERT_CAR_WITH_DRIVERS = "INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, (SELECT id FROM cars WHERE cars.mark = ?))";//"INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, ?)";
 	private static final String ADD_CARS_FOR_DRIVER_EXCEPTION = "Error adding car for driver!";
+	private static final String SQL_SELECT_CAR_BY_ID = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE cars.id = ?";
+	private static final String GET_CAR_BY_ID_EXCEPTION = "Error! You cannot get car by id!";
 	private static Logger LOGGER = Logger.getLogger(DatabaseCarDao.class);
 	
 	
@@ -60,8 +62,8 @@ public class DatabaseCarDao implements CarDao {
 
 			statement = connection.prepareStatement(SQL_SELECT_ALL_CAR);
 			
-			statement.setInt(1, offset); //8
-			statement.setInt(2, countRows);//8
+			statement.setInt(1, offset);
+			statement.setInt(2, countRows);
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
@@ -300,5 +302,68 @@ public class DatabaseCarDao implements CarDao {
 			}
 		
 		}
+	}
+
+	@Override
+	public void addCarsDriver(User driver) throws DaoException {
+
+		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
+		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
+
+		PreparedStatement statement = null;
+	
+		try(Connection connection = connectionPool.takeConnection()) {
+			
+			statement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
+			
+			for (Car car : driver.getCars()) {
+				statement.setLong(1, driver.getId());
+				statement.setString(2, car.getMark());
+				statement.executeUpdate();
+			}
+		
+		} catch (SQLException e) {
+			throw new DaoException(ADD_CARS_FOR_DRIVER_EXCEPTION);
+		} catch (ConnectionPoolException e1) {
+			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
+		}finally {
+			ResourceClose.closePreparedStatement(statement);
+		}
+		
+	}
+
+	@Override
+	public Car getCarById(long id) throws DaoException {
+		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
+		ConnectionPool connectionPool = factoryConnectionPool.getConnectionPool();
+		
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Car car = null;
+		
+		try(Connection connection = connectionPool.takeConnection()) {
+			statement = connection.prepareStatement(SQL_SELECT_CAR_BY_ID);
+			
+			statement.setLong(1, id);
+			resultSet = statement.executeQuery();
+			
+			while (resultSet.next()) {
+				car = new Car();
+				
+				car.setId(resultSet.getLong(ID));
+				car.setMark(resultSet.getString(MARK));					
+				car.setNumber(resultSet.getString(CAR_NUMBER));
+				car.setStatusCar(Car.StatusCar.valueOf(resultSet.getString(CAR_CONDITION).toUpperCase()));				
+				
+			}
+		} catch (SQLException e) {
+			throw new DaoException(GET_CAR_BY_ID_EXCEPTION);
+		} catch (ConnectionPoolException e) {
+			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e);
+		} finally {
+			ResourceClose.closeResultSet(resultSet);
+			ResourceClose.closePreparedStatement(statement);
+		}
+		return car;
 	}
 }
