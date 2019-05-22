@@ -110,7 +110,7 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 			LOGGER.error(MESSAGE_CONNECTION_POOL_EXCEPTION, e1);
 		} finally {
 			ResourceClose.closeResultSet(resultSet);
-			ResourceClose.closeStatement(statement);
+			ResourceClose.closePreparedStatement(statement);
 		}
 
 		return routes;
@@ -142,7 +142,7 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 		try (Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_ALL_ROUTES_BY_ID);
 			statement.setLong(1, id);
-			statement.setInt(2, offset); //8
+			statement.setInt(2, offset);
 			statement.setInt(3, countRows);
 			
 			resultSet = statement.executeQuery();

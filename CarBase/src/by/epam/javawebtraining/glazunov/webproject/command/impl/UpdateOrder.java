@@ -67,6 +67,4 @@ public class UpdateOrder implements Command {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}
-		
-
 }

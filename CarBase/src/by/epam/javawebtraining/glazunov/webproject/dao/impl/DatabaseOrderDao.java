@@ -33,9 +33,6 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
   * @version 1.0
   */
 public class DatabaseOrderDao implements OrderDao {
-	private static final String LOCAL_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	private static final String SQL_UPDATE_ORDER_BY_ID = "UPDATE orders SET orders.city_id_departure=(SELECT id FROM city WHERE name = ?), orders.city_id_destination=(SELECT id FROM city WHERE name = ?), orders.time_departure = ?, orders.count_passenger=? WHERE orders.id = ?";
-	private static final String UPDATE_ORDER_EXCEPTION = "Error! You cannot update order!";;
 	private static Logger LOGGER = Logger.getLogger(DatabaseOrderDao.class);
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_PATTERN);
 	

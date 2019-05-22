@@ -9,12 +9,6 @@ import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 
 public class CountRowServiceImpl implements CountRowService{
-	private static final String MESSAGE_ERROR_GET_COUNT_CAR_BY_ID_DRIVER = "Error!!! Can`t get count rows CARS by id driver!";
-	private static final String MESSAGE_ERROR_GET_COUNT_ROUTES = "Error!!! Can`t get count rows ROUTES by id driver!";
-	private static final String MESSAGE_ERROR_GET_COUNT_ORDERS_BY_ID_CLIENT = "Error!!! Can`t get count rows ORDERS by id client!";
-	private static final String MESSAGE_ERROR_GET_COUNT_ALL_ORDER_WITHOUT_ROUTE = "Error!!! Can`t get count rows ORDERS without routes!";
-	private static final String MESSAGE_ERROR_GET_COUNT_ROUTE = "Error!!! Can`t get count rows ROUTES!";
-	private static final String MESSAGE_ERROR_GET_COUNT_CAR = "Error!!! Can`t get count rows CARS!";
 	private DaoFactory factory = DaoFactory.getInstance();
 	private CountRowDao countRowDao = factory.getCountRowDao(); 
 
@@ -78,6 +72,26 @@ public class CountRowServiceImpl implements CountRowService{
 			return countRowDao.getAllCarCount();
 		} catch (DaoException e) {
 			throw new ServiceException(MESSAGE_ERROR_GET_COUNT_CAR);
+		}
+	}
+
+	@Override
+	public int getAllFeedbackByIdClientCount(long id) throws ServiceException {
+		Validation.validId(id);
+		
+		try {
+			return countRowDao.getAllFeedbackByIdClientCount(id);
+		} catch (DaoException e) {
+			throw new ServiceException(MESSAGE_ERROR_GET_COUNT_FEEDBACK);
+		}
+	}
+
+	@Override
+	public int getAllFeedbackCount() throws ServiceException {
+		try {
+			return countRowDao.getAllFeedbackCount();
+		} catch (DaoException e) {
+			throw new ServiceException(MESSAGE_ERROR_GET_COUNT_FEEDBAKS);
 		}
 	}
 

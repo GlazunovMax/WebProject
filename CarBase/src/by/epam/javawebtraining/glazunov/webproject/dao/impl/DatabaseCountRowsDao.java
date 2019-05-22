@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -16,34 +15,9 @@ import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPo
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPoolException;
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.FactoryConnectionPool;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
-import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 
 public class DatabaseCountRowsDao implements CountRowDao {
 	private static Logger LOGGER = Logger.getLogger(DatabaseCountRowsDao.class);
-
-	private static final String SQL_GET_ALL_CAR_BY_ID_DRIVER_COUNT = "SELECT COUNT(*) AS COUNT FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE users_has_cars.users_id = ?";
-	private static final String COUNT = "COUNT";
-	private static final String MESSAGE_FIND_COUNT_CAR_BY_ID_DRIVER_EXCEPTION = "Cannot find count cars by id driver";
-
-	private static final String SQL_GET_ALL_ROUTE_BY_ID_DRIVER_COUNT = "SELECT COUNT(*) AS COUNT FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id WHERE routes.users_id = ?";
-
-	private static final String MESSAGE_FIND_COUNT_ROUTE_BY_ID_DRIVER_EXCEPTION = "Cannot find count routes by id driver";
-
-	private static final String SQL_GET_ALL_ORDER_BY_ID_CLIENT = "SELECT COUNT(*) AS COUNT FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE users.id = ? ORDER BY orders.time_departure";
-
-	private static final String MESSAGE_FIND_COUNT_ORDER_BY_ID_CLIENT_EXCEPTION = "Cannot find count orders by id client";
-
-	private static final String SQL_GET_ALL_ORDER_WITHOUT_ROUTE = "SELECT COUNT(*) AS COUNT FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE orders.id NOT IN(SELECT routes.orders_id FROM routes)";
-
-	private static final String MESSAGE_FIND_COUNT_ORDER_WITHOUT_ROUTE_EXCEPTION = "Cannot find count orders without route";
-
-	private static final String SQL_GET_COUNT_ALL_ROUTE = "SELECT COUNT(*) AS COUNT FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id";
-
-	private static final String MESSAGE_FIND_COUNT_ROUTE_EXCEPTION = "Cannot find count all routes";
-
-	private static final String SQL_GET_COUNT_ALL_CAR = "SELECT COUNT(*) AS COUNT FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id";// WHERE car_condition.status_car = 'GOOD'
-
-	private static final String MESSAGE_FIND_COUNT_CAR_EXCEPTION = "Cannot find count all cars";
 
 	/**
 	 * Method get a cars count
@@ -137,6 +111,43 @@ public class DatabaseCountRowsDao implements CountRowDao {
 		return getCountRows(sql, messageException);
 	}
 
+
+	/**
+	 * Method get a feedback count
+	 * 
+	 * @param id
+	 *            - client id
+	 * @return a feedback count
+	 * @throws DaoException
+	 *             - if you cannot get feedbacks count
+	 */
+	@Override
+	public int getAllFeedbackByIdClientCount(long id) throws DaoException {
+		String sql = SQL_GET_ALL_FEEDBACK_BY_ID_CLIENT;
+		String messageException = MESSAGE_FIND_COUNT_FEEDBACK_BY_ID_CLIENT_EXCEPTION;
+		
+		return getCountRows(id, sql, messageException);
+	}
+	
+	
+	/**
+	 * Method get all feedback count
+	 * 
+	 * @return a feedback count
+	 * @throws DaoException
+	 *             - if you cannot get feedback count
+	 */
+	@Override
+	public int getAllFeedbackCount() throws DaoException {
+		String sql = SQL_GET_COUNT_ALL_FEEDBACK;
+		String messageException = MESSAGE_FIND_COUNT_FEEDBACK_EXCEPTION;
+		
+		return getCountRows(sql, messageException);
+	}
+	
+	
+	
+	
 	
 	private int getCountRows(String sql, String messageException) throws DaoException {
 		int count = 0;
@@ -162,11 +173,7 @@ public class DatabaseCountRowsDao implements CountRowDao {
 			ResourceClose.closeResultSet(resultSet);
 			ResourceClose.closeStatement(statement);
 		}	
-			
-		
-		return count;
-
-		
+		return count;		
 	}
 
 	
@@ -200,14 +207,5 @@ public class DatabaseCountRowsDao implements CountRowDao {
 		return count;
 		
 	}
-
-	
-
-	
-
-	
-
-	
-
 	
 }

@@ -18,7 +18,6 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  * @version 1.0
  */
 public class OrderServiceImpl implements OrderService {
-	private static final String MESSAGE_ERROR_UPDATE_ORDER = "Can`t update order!!!";
 	private DaoFactory factory = DaoFactory.getInstance();
 	private OrderDao orderDao = factory.getOrderDao();
 

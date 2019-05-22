@@ -14,8 +14,10 @@ public interface RouteDao extends ItemDao<Route> {
 	/**
 	 * Get all the routes owned by the specific driver.
 	 *  
-	 *  @param id - driver's id
-	 *  @throws DaoException - if can't get all the ROUTES owned by the specific driver
+	 * @param id - driver's id
+	 * @param offset - how many lines to skip
+	 * @param countRows - number of rows to extract
+	 * @throws DaoException - if can't get all the ROUTES owned by the specific driver
 	 */
 	List<Route> getRouteById(long id, int offset, int countRows) throws DaoException;
 	
@@ -29,6 +31,13 @@ public interface RouteDao extends ItemDao<Route> {
 	 */
 	void editMarkRoute(long id, String mark) throws DaoException;
 	
+	/**
+	 * Get all the routes.
+	 * @param offset - how many lines to skip
+	 * @param countRows - number of rows to extract
+	 * @return - all routes
+	 * @throws DaoException - if can't get all the ROUTES
+	 */
 	List<Route> getAll(int offset, int countRows) throws DaoException; 
 	
 }

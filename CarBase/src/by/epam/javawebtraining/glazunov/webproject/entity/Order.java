@@ -13,15 +13,11 @@ public class Order extends Model {
 	private City departure;
 	private City destination;
 	private LocalDateTime timeDeparture;
-	//private String timeDeparture;
-	//private LocalDate timeDeparture;
 	private int countPassenger;
 	
 	private User user;
 	
 	private Route route;
-	/*private Set<Route> routes;*/
-
 	
 	/**
 	 * Creates a new object

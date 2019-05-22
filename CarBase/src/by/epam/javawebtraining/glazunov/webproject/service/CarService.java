@@ -51,7 +51,7 @@ public interface CarService {
 	 * Get all the cars owned by the specific driver.
 	 *  
 	 * @param id - driver's id
-	 * @throws DaoException - if can't get all the cars owned by the specific driver
+	 * @throws ServiceException - if can't get all the cars owned by the specific driver
 	 */
 	Set<Car> getAllCarByIdDriver(long id, int offset, int countRows) throws ServiceException;
 	

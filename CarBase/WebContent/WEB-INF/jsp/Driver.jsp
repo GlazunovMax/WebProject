@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/WEB-INF/jsp/error/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="by.epam.javawebtraining.glazunov.webproject.entity.Route.Mark" %>
@@ -21,8 +21,12 @@
 	<c:set var="Role" value="Driver" scope="request"/>
 	<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
 <!----------------------------------------------------------------------------------------------->
-		
-		
+
+		<!-- ghjпроверить 500 ошибу -->
+					<%-- <jsp:useBean id="ob" class="java.lang.String"></jsp:useBean>
+				${ob.toString} --%>
+		<!--  -->
+																													
 		
 <!----------------------------MENU  /GET ALL ROUTE/GET ALL CAR/ BY ID_DRIVER--------------------->
 <c:set var="id" value="${sessionScope.id}" scope="request"/>  <!-- idDriver -->

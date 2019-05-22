@@ -3,12 +3,14 @@ package by.epam.javawebtraining.glazunov.webproject.service.factory;
 import by.epam.javawebtraining.glazunov.webproject.service.CarService;
 import by.epam.javawebtraining.glazunov.webproject.service.CityService;
 import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
+import by.epam.javawebtraining.glazunov.webproject.service.FeedbackService;
 import by.epam.javawebtraining.glazunov.webproject.service.OrderService;
 import by.epam.javawebtraining.glazunov.webproject.service.RouteService;
 import by.epam.javawebtraining.glazunov.webproject.service.UserService;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.CarServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.CountRowServiceImpl;
+import by.epam.javawebtraining.glazunov.webproject.service.impl.FeedbackServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.OrderServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.RouteServiceImpl;
 import by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl;
@@ -35,6 +37,9 @@ public class ServiceFactory {
 	
 	/** Creates a reference to the DatabaseCountRowService object class */
 	private final CountRowService countRowService = new CountRowServiceImpl();
+	
+	/** Creates a reference to the DatabaseFeedbackService object class */
+	private final FeedbackService feedbackService = new FeedbackServiceImpl();
 	
 
 	private ServiceFactory(){}
@@ -93,6 +98,14 @@ public class ServiceFactory {
 	 */
 	public CountRowService getCountRowService() {
 		return countRowService;
+	}
+	
+	/**
+	 * Method to get a reference to the DatabaseFeedbackService object class {@link ServiceFactory#feedbackService} 
+	 * @return a reference to the DatabaseFeedbackService object class
+	 */
+	public FeedbackService getFeedbackService() {
+		return feedbackService;
 	}
 	
 }

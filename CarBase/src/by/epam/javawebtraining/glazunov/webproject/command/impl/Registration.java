@@ -31,7 +31,7 @@ public class Registration implements Command {
 		user.setRole(Role.valueOf(request.getParameter(ROLE).toUpperCase()));
 
 		String page = null;
-		String role = request.getParameter("hiddenRole");
+		String role = request.getParameter(HIDDEN_ROLE);
 		ServiceFactory factory = ServiceFactory.getInstance();
 		UserService userService = factory.getUserService();
 		HttpSession session = request.getSession(true);
@@ -43,7 +43,7 @@ public class Registration implements Command {
 				session.setAttribute(USER, user.getName());
 			}
 			
-			if(role.equals("client")){
+			if(role.equals(CLIENT_LOWER_CASE)){
 				page = PATH_TO_CLIENT_JSP;
 			}else{
 				page = PATH_TO_DISPATCHER_JSP;

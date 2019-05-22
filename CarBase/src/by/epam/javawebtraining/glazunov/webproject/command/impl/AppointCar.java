@@ -20,9 +20,7 @@ import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceExce
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
 
 public class AppointCar implements Command {
-
-	private static final String ERROR_APPOINT_CAR_LIST = "errorAppointCarList";
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User driver = null;
@@ -40,8 +38,8 @@ public class AppointCar implements Command {
 			cars = carService.getAllCar(0, countRowService.getAllCarCount());
 			
 			if(driver != null){
-				request.setAttribute("driver", driver);
-				request.setAttribute("carList", cars);
+				request.setAttribute(DRIVER_APPOINT_CAR, driver);
+				request.setAttribute(CAR_LIST, cars);
 				page = PATH_TO_DISPATCHER_JSP;
 			}
 		} catch (ServiceException e) {

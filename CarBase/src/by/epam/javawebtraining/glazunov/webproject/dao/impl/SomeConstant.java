@@ -11,7 +11,9 @@ public class SomeConstant {
 	public static final String SQL_SELECT_DRIVERS = "SELECT users_has_cars.users_id, users_has_cars.cars_id, users.id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id  INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN roles ON users.role_id = roles.id WHERE cars_id = ?";
 	public static final String SQL_SELECT_CARS_BY_ID_DRIVER = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE users_has_cars.users_id = ? limit ?,?";
 	public static final String SQL_EDIT_CAR_CONDITION = "UPDATE cars SET cars.car_condition_id = (SELECT car_condition.id FROM car_condition WHERE car_condition.status_car = ?) WHERE cars.id = ?";
-		
+	public static final String SQL_INSERT_CAR_WITH_DRIVERS = "INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, (SELECT id FROM cars WHERE cars.mark = ?))";//"INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, ?)";
+	public static final String SQL_SELECT_CAR_BY_ID = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE cars.id = ?";
+	
 	public static final String ID = "id";
 	public static final String MARK = "mark";
 	public static final String CAR_NUMBER = "car_number";
@@ -36,6 +38,44 @@ public class SomeConstant {
 	public static final String REMOVE_CAR_EXCEPTION = "Error remove car by id";
 	public static final String GET_CARS_BY_ID_DRIVER_EXCEPTION = "Error! You cannot get car by id driver!";
 	public static final String EDIT_CAR_CONDITION_EXCEPTION = "Error edit car condition!";
+	public static final String ADD_CARS_FOR_DRIVER_EXCEPTION = "Error adding car for driver!";
+	public static final String GET_CAR_BY_ID_EXCEPTION = "Error! You cannot get car by id!";
+	
+	
+	//DatabaseCountRowsDao
+	public static final String SQL_GET_ALL_CAR_BY_ID_DRIVER_COUNT = "SELECT COUNT(*) AS COUNT FROM users INNER JOIN users_has_cars ON users.id = users_has_cars.users_id INNER JOIN cars ON cars.id = users_has_cars.cars_id INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE users_has_cars.users_id = ?";
+	public static final String COUNT = "COUNT";
+	public static final String MESSAGE_FIND_COUNT_CAR_BY_ID_DRIVER_EXCEPTION = "Cannot find count cars by id driver";
+	public static final String SQL_GET_ALL_ROUTE_BY_ID_DRIVER_COUNT = "SELECT COUNT(*) AS COUNT FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id WHERE routes.users_id = ?";
+	public static final String MESSAGE_FIND_COUNT_ROUTE_BY_ID_DRIVER_EXCEPTION = "Cannot find count routes by id driver";
+	public static final String SQL_GET_ALL_ORDER_BY_ID_CLIENT = "SELECT COUNT(*) AS COUNT FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE users.id = ? ORDER BY orders.time_departure";
+	public static final String MESSAGE_FIND_COUNT_ORDER_BY_ID_CLIENT_EXCEPTION = "Cannot find count orders by id client";
+	public static final String SQL_GET_ALL_ORDER_WITHOUT_ROUTE = "SELECT COUNT(*) AS COUNT FROM orders INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users ON orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id WHERE orders.id NOT IN(SELECT routes.orders_id FROM routes)";
+	public static final String MESSAGE_FIND_COUNT_ORDER_WITHOUT_ROUTE_EXCEPTION = "Cannot find count orders without route";
+	public static final String SQL_GET_COUNT_ALL_ROUTE = "SELECT COUNT(*) AS COUNT FROM routes INNER JOIN orders ON routes.orders_id = orders.id INNER JOIN users ON  orders.users_id = users.id INNER JOIN roles ON users.role_id = roles.id INNER JOIN city ON orders.city_id_destination = city.id INNER JOIN city as dep ON orders.city_id_departure = dep.id INNER JOIN users AS driv ON routes.users_id = driv.id INNER JOIN roles as rol ON driv.role_id = rol.id";
+	public static final String MESSAGE_FIND_COUNT_ROUTE_EXCEPTION = "Cannot find count all routes";
+	public static final String SQL_GET_COUNT_ALL_CAR = "SELECT COUNT(*) AS COUNT FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id";// WHERE car_condition.status_car = 'GOOD'
+	public static final String MESSAGE_FIND_COUNT_CAR_EXCEPTION = "Cannot find count all cars";
+	public static final String SQL_GET_ALL_FEEDBACK_BY_ID_CLIENT = "SELECT COUNT(*) AS COUNT FROM feedback WHERE feedback.user_id = ?";
+	public static final String MESSAGE_FIND_COUNT_FEEDBACK_BY_ID_CLIENT_EXCEPTION = "Cannot find count all feedbacks by id client";
+	public static final String SQL_GET_COUNT_ALL_FEEDBACK = "SELECT COUNT(*) AS COUNT FROM feedback";
+	public static final String MESSAGE_FIND_COUNT_FEEDBACK_EXCEPTION = "Cannot find count all feedbacks";
+
+	//DatabaseFeedbackDao
+	public static final String SQL_TRANSACTION_VARIABLE_ADD_CLIENT_ID = "SET @client_id = 0";
+	public static final String SQL_SELECT_TRANSACTION_CLIENT_ID = "SELECT id INTO @client_id FROM users WHERE surname = ?";
+	public static final String SQL_INSERT_FEEDBACK_TRANSACTION = "INSERT INTO feedback(review, user_id) VALUES(?, @client_id)";
+	public static final String ADD_FEEDBACK_EXCEPTION = "Error adding feedback!";
+	public static final String SQL_REMOVE_FEEDBACK = "DELETE FROM feedback WHERE id = ?";
+	public static final String REMOVE_FEEDBACK_EXCEPTION = "Error remove feedback by id!";
+	public static final String SQL_SELECT_ALL_FEEDBACKS = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id LIMIT ?,?";
+	public static final String GET_ALL_FEEDBACK_EXCEPTION = "Error! You cannot get all feedback!";
+	public static final String SQL_SELECT_ALL_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE users.id = ? LIMIT ?,?";
+	public static final String SQL_UPDATE_FEEDBACK_BY_ID = "UPDATE feedback SET feedback.review = ? WHERE feedback.id = ?";
+	public static final String UPDATE_FEEDBACK_EXCEPTION = "Error! You cannot update feedback!";
+	public static final String SQL_SELECT_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE feedback.id = ?";
+	public static final String GET_FEEDBACK_EXCEPTION_BY_ID = "Error! You cannot get Feedback by id!";
+
 	
 	//CAR_SERVICE_IMPL
 	public static final String MESSAGE_ERROR_GET_ALL_CAR = "Error!!! Can`t get all cars!";
@@ -44,7 +84,26 @@ public class SomeConstant {
 	public static final String MESSAGE_ERROR_GET_CARS_BY_ID_DRIVER = "Error!!! Can`t get cars by id driver!";
 	public static final String MESSAGE_EMPTY_CONDITION_EDIT_CAR_CONDITION = "Passed parameter car condition is empty!!";
 	public static final String MESSAGE_ERROR_EDIT_CAR_CONDITION = "Error! Can`t edit car condition!";
+	public static final String MESSAGE_ERROR_ADD_CAR_FOR_DRIVER = "Can`t add car for driver!!!";
+	public static final String MESSAGE_ERROR_ADD_CARS_DRIVER = "Can`t add cars driver!!!";
+	public static final String MESSAGE_ERROR_GET_CAR_BY_ID = "Error!!! Can`t get car by id!";
+	
+	//CountRowServiceImpl
+	public static final String MESSAGE_ERROR_GET_COUNT_CAR_BY_ID_DRIVER = "Error!!! Can`t get count rows CARS by id driver!";
+	public static final String MESSAGE_ERROR_GET_COUNT_ROUTES = "Error!!! Can`t get count rows ROUTES by id driver!";
+	public static final String MESSAGE_ERROR_GET_COUNT_ORDERS_BY_ID_CLIENT = "Error!!! Can`t get count rows ORDERS by id client!";
+	public static final String MESSAGE_ERROR_GET_COUNT_ALL_ORDER_WITHOUT_ROUTE = "Error!!! Can`t get count rows ORDERS without routes!";
+	public static final String MESSAGE_ERROR_GET_COUNT_ROUTE = "Error!!! Can`t get count rows ROUTES!";
+	public static final String MESSAGE_ERROR_GET_COUNT_CAR = "Error!!! Can`t get count rows CARS!";
+	public static final String MESSAGE_ERROR_GET_COUNT_FEEDBACK = "Error!!! Can`t get count rows Feedback only client!";
+	public static final String MESSAGE_ERROR_GET_COUNT_FEEDBAKS = "Error!!! Can`t get count rows all Feedback!";
 
+	//FeedbackServiceImpl
+	public static final String MESSAGE_ERROR_ADD_FEEDBACK = "Can`t add frrdback!!!";
+	public static final String MESSAGE_ERROR_REMOVE_FEEDBACK = "Error! Can`t remove feedback!";
+	public static final String MESSAGE_ERROR_GET_ALL_FEEDBACK = "Error!!! Can`t get all feedbacks!";
+	public static final String MESSAGE_ERROR_GET_FEEDBACKS_BY_ID_DRIVER = "Error!!! Can`t get feedbacks by id client!";
+	public static final String MESSAGE_ERROR_EDIT_FEEDBACK = "Error! Can`t edit feedback!";
 	
 	
 	//DATABASE_CITY_DAO
@@ -92,6 +151,10 @@ public class SomeConstant {
 	public static final String GET_ORDER_EXCEPTION_BY_ID = "Error! You cannot get order by id!";
 	public static final String GET_USER_BY_ID_EXCEPTION = "Error! You cannot get user by id!";
 	
+	public static final String SQL_UPDATE_ORDER_BY_ID = "UPDATE orders SET orders.city_id_departure=(SELECT id FROM city WHERE name = ?), orders.city_id_destination=(SELECT id FROM city WHERE name = ?), orders.time_departure = ?, orders.count_passenger=? WHERE orders.id = ?";
+	public static final String UPDATE_ORDER_EXCEPTION = "Error! You cannot update order!";
+
+	
 	//USER_SERVICE_IMPL
 	public static final String MESSAGE_ERROR_LOGIN_OR_PASSWORD = "Incorect login or password";
 	public static final String MESSAGE_ERROR_DATA_USER = "Incorect data user";
@@ -130,7 +193,8 @@ public class SomeConstant {
 	public static final String MESSAGE_ERROR_GET_ORDER_BY_ID = "Error! Can`t get order by id!";
 	public static final String MESSAGE_ERROR_GET_ALL_ORDER_WITHOUT_ROUTE = "Error!!! Can`t get all orders without routes!";
 	public static final String MESSAGE_ERROR_GET_ORDERS_BY_ID = "Error! Can`t get orders by id!";
-
+	public static final String MESSAGE_ERROR_UPDATE_ORDER = "Can`t update order!!!";
+	
 	
 	
 	//DATABASE_ROUTE_DAO
@@ -195,6 +259,9 @@ public class SomeConstant {
 	public static final String MESSAGE_ERROR_FORMAT_PHONE = "Incorect format phone number!";
 	public static final String MEESAGE_ERROR_DATE_FORMAT = "Incorect date format! Need like this - 'yyyy-MM-dd HH:mm'";
 	public static final String MESSAGE_ERROR_ID = "Incorect id for removing!!!";
+	public static final String MESSAGE_ERROR_COUNT_PASSENGER = "Passed parameter count passenger should be from 1 to 4!!";
+	public static final String MESSAGE_ERROR_CAR_NUMBER = "Incorrect car number. Must be in XXXX format.";
+	public static final String MESSAGE_ERROR_FEEDBACK_IS_EMPTY = "Passed parameter feedback is empty!!";;
 
 	
 	//COMMAND IMPL
@@ -204,6 +271,17 @@ public class SomeConstant {
 	public static final String ERROR_ADD_CAR = "errorAddCar";
 	public static final String PATH_TO_DISPATCHER_JSP = "/WEB-INF/jsp/Dispatcher.jsp";
 	public static final String CAR_MARK = "car_mark";
+	public static final String ID_DRIVER = "idDriver";
+
+	//AddFeedback
+	public static final String ADD_FEEDBACK_REDIRECT_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&AddFeedbackSuccess=Feedback successful added!";
+	public static final String ERROR_ADD_FEEDBACK = "errorAddFeedback";
+
+	//AppointCar
+	public static final String ERROR_APPOINT_CAR_LIST = "errorAppointCarList";
+	public static final String DRIVER_APPOINT_CAR = "driver";
+	public static final String CAR_LIST = "carList";
+
 	
 	//AddOrder
 	public static final String CITY_DEPARTURE = "city_departure";
@@ -238,6 +316,21 @@ public class SomeConstant {
 	
 	//GetAllCarByIdDriver
 	public static final String ERROR_GET_ALL_CAR_BY_ID_DRIVER = "errorGetAllCarByIdDriver";
+	
+	//GetAllDriver
+	public static final String ERROR_DRIVER_LIST = "errorDriverList";
+	public static final String LIST_DRIVER = "listDriver";
+	
+	//GetAllFEEDBACK
+	public static final String FEEDBACKS_LIST = "feedbacks";
+	public static final String MESSAGE_FEEDBACKS_LIST_EMPTY = "messageFeedbacksListEmpty";
+	public static final String MESSAGE_IF_FEEDBACK_LIST_EMPTY = "You have no feedbacks!";
+	public static final String ERROR_GET_ALL_FEEDBACK = "errorGetAllFeedbacks";
+	public static final String MESSAGE_FOR_ADD_FEEDBACK = "addNewFeedback";
+
+
+	//GetAllFeedbackById
+	public static final String ERROR_GET_ALL_FEEDBACK_BY_ID_DRIVER = "errorGetAllFeedbackByIdClient";
 	
 	//CreateRoute
 	public static final String ERROR_ORDER_BY_ID = "errorOrderById";
@@ -289,7 +382,15 @@ public class SomeConstant {
 	public static final String ERROR_REGISTRATION = "errorRegistration";
 	public static final String USER = "user";
 	public static final String PATH_TO_REGISTRATION_JSP = "/WEB-INF/jsp/Registration.jsp";
+	public static final String HIDDEN_ROLE = "hiddenRole";
+	public static final String CLIENT_LOWER_CASE = "client";
 
+	//RemoveFeedback
+	public static final String REMOVE_FEEDBACK_REDIRECT_PATH_TO_DISPATCHER_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&removeFeedbackSuccess=Feedback successful removed!";
+	public static final String ERROR_FEEDBACK_REMOVE = "errorFeedbackRemove";
+	public static final String MESSAGE_ERROR_FEEDBACK_REMOVE = "Cannot delete feedback!";
+
+	
 	//RemoveCar
 	public static final String ERROR_CAR_REMOVE = "errorCarRemove";
 	public static final String MESSAGE_ERROR_CAR_REMOVE = "Cannot delete car!";
@@ -311,7 +412,14 @@ public class SomeConstant {
 	public static final String CLIENT = "CLIENT";
 	public static final String DRIVER = "DRIVER";
 	public static final String DISPATCHER = "DISPATCHER";
-		
+	
+	//ShowEditFeedbackForm
+	public static final String SINGLE_FEEDBACK = "singleFeedback";
+	public static final String ERROR_GET_FEEDBACK_BY_ID = "errorGetfeedbackById";
+	public static final String MESSAGE_ERROR_GET_FEEDBACK_BY_ID = "Error! Can`t get feedback by id!";
+	public static final String ERROR_SHOW_EDIT_FEEDBACK_FORM = "Could not find feedback!";
+
+	
 	//ShowEditOrderForm
 	public static final String SINGLE_ORDER = "singleOrder";
 	public static final String ERROR_GET_ORDER_BY_ID = "errorGetOrderById";
@@ -331,5 +439,11 @@ public class SomeConstant {
 	public static final String ERROR_UPDATE_ORDER = "errorUpdateOrder";
 	public static final String REDIRECT_UPDATE_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&UpdateOrderSuccess=Order successful updated!";
 	public static final String ID_USER = "idUser";
+
+	//UpdateFeedback
+	public static final String REDIRECT_UPDATE_FEEDBACK_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&UpdateFeedbackSuccess=Feedback successful updated!";
+	public static final String ERROR_UPDATE_FEEDBACK = "errorUpdateFeedback";
+	public static final String FEEDBACK = "feedback";
+	public static final String ID_CLIENT = "idClient";;
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import by.epam.javawebtraining.glazunov.webproject.command.Command;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddCar;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddCarsForDriver;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.AddFeedback;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddOrder;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AddRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.AppointCar;
@@ -16,21 +17,27 @@ import by.epam.javawebtraining.glazunov.webproject.command.impl.EditMarkRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllCar;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllCarByIdDriver;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllDriver;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllFeedback;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllOrderById;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllOrderWithoutRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GetAllRouteById;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.GetFeedbackById;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.GoToAddFeedback;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GoToAddOrder;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GoToRegistration;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.GoToSingIn;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.Logout;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.Registration;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.RemoveCar;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.RemoveFeedback;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.RemoveOrder;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.RemoveRoute;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.SingIn;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.UpdateFeedback;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.UpdateOrder;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.SelectPage;
+import by.epam.javawebtraining.glazunov.webproject.command.impl.ShowEditFeedbackForm;
 import by.epam.javawebtraining.glazunov.webproject.command.impl.ShowEditOrderForm;
 
 public class CommandProvider {
@@ -42,6 +49,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_SING_IN, new GoToSingIn());
 		commands.put(CommandName.GO_TO_REGISTRATION, new GoToRegistration());
 		commands.put(CommandName.GO_TO_ADD_ORDER, new GoToAddOrder());
+		commands.put(CommandName.GO_TO_ADD_FEEDBACK, new GoToAddFeedback());
 		commands.put(CommandName.ADD_CAR, new AddCar());
 		commands.put(CommandName.SING_IN, new SingIn());
 		commands.put(CommandName.REGISTRATION, new Registration());
@@ -65,6 +73,12 @@ public class CommandProvider {
 		commands.put(CommandName.GET_ALL_DRIVER, new GetAllDriver());
 		commands.put(CommandName.APPOINT_CAR, new AppointCar());
 		commands.put(CommandName.ADD_CARS_FOR_DRIVER, new AddCarsForDriver());
+		commands.put(CommandName.ADD_FEEDBACK, new AddFeedback());
+		commands.put(CommandName.GET_FEEDBACK_BY_ID, new GetFeedbackById());
+		commands.put(CommandName.REMOVE_FEEDBACK, new RemoveFeedback());
+		commands.put(CommandName.SHOW_EDIT_FEEDBACK_FORM, new ShowEditFeedbackForm());
+		commands.put(CommandName.UPDATE_FEEDBACK, new UpdateFeedback());
+		commands.put(CommandName.GET_ALL_FEEDBACK, new GetAllFeedback());
 	}
 
 	public Command getCommand(String commandName) {

@@ -3,12 +3,14 @@ package by.epam.javawebtraining.glazunov.webproject.dao.factory;
 import by.epam.javawebtraining.glazunov.webproject.dao.CarDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.CityDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.CountRowDao;
+import by.epam.javawebtraining.glazunov.webproject.dao.FeedbackDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.OrderDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.RouteDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.UserDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCarDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCityDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseCountRowsDao;
+import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseFeedbackDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseOrderDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseRouteDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.impl.DatabaseUserDao;
@@ -40,6 +42,9 @@ public class DaoFactory {
 	/** Creates a reference to the CountRowDao object class */
 	private final CountRowDao countRowDao = new DatabaseCountRowsDao();
 	
+	/** Creates a reference to the DatabaseFeedbackDao object class */
+	private final FeedbackDao feedbackDao = new DatabaseFeedbackDao();
+
 
 	private DaoFactory(){}
 
@@ -97,6 +102,14 @@ public class DaoFactory {
 	 */
 	public CountRowDao getCountRowDao() {
 		return countRowDao;
+	}
+	
+	/**
+	 * Method to get a reference to the DatabaseFeedbackDao object class {@link DaoFactory#feedbackDao} 
+	 * @return a reference to the DatabaseFeedbackDao object class
+	 */
+	public FeedbackDao getFeedbackDao() {
+		return feedbackDao;
 	}
 	
 	

@@ -1,7 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.ERROR_ORDER_LIST;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.PATH_TO_CLIENT_JSP;
+import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,14 +18,8 @@ import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactor
 
 public class GetAllDriver implements Command {
 
-	private static final String ERROR_DRIVER_LIST = "errorDriverList";
-	private static final String PATH_TO_DISPATCHER_JSP = "/WEB-INF/jsp/Dispatcher.jsp";
-	private static final String LIST_DRIVER = "listDriver";
-
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("dhgdjhd");
 		List<User> users = null;
 		String page = null;
 		ServiceFactory factory = ServiceFactory.getInstance();

@@ -17,7 +17,6 @@ public class GoToAddOrder implements Command {
 		request.setAttribute(MESSAGE_FOR_ADD_ROUTE, MESSAGE_FOR_ADD_ROUTE);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(PATH_TO_CLIENT_JSP);
 		dispatcher.forward(request, response);
-
 	}
 
 }

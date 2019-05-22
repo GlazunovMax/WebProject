@@ -1,6 +1,5 @@
 package by.epam.javawebtraining.glazunov.webproject.entity;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,8 +15,6 @@ public class Car extends Model {
 	private StatusCar statusCar;
 
 	private Set<User> users;//drivers
-	//private List<User> users;
-
 	
 	/**
 	 * Creates a new object

@@ -27,15 +27,25 @@
 
 
 
-<!----------------------------------GET ALL/REMOVE CAR------------------------------------------------------->
+<!----------------------------------GET ALL/REMOVE CAR/FEEDBACK------------------------------------------------------->
 <!-- MESSAGE IF GET_CARS_ LIST EMPTY -->
 	<c:if test="${not empty requestScope.messageCarsListEmpty}">
 		<h4 style="color: red"><fmt:message key="${requestScope.messageCarsListEmpty}"/> </h4>
 	</c:if>	
+
+<!-- MESSAGE IF GET_FEEDBACKS_ LIST EMPTY -->
+	<c:if test="${not empty requestScope.messageFeedbacksListEmpty}">
+		<h4 style="color: red"><fmt:message key="${requestScope.messageFeedbacksListEmpty}"/> </h4>
+	</c:if>			
 	
 <!-- MESSAGE ERROR GET ALL CAR -->
 	<c:if test="${not empty requestScope.errorGetAllCar}">
 		<h4 style="color: red"><c:out value="${requestScope.errorGetAllCar}" /> </h4>
+	</c:if>
+	
+<!-- MESSAGE ERROR GET ALL FEEDBACKs -->
+	<c:if test="${not empty requestScope.errorGetAllFeedbacks}">
+		<h4 style="color: red"><c:out value="${requestScope.errorGetAllFeedbacks}" /> </h4>
 	</c:if>
 	
 <!--MESSAGE ABOUT SUCCESSFUL REMOVE CAR  -->

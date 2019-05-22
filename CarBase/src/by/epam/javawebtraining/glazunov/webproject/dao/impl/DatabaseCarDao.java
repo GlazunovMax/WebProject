@@ -30,12 +30,7 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  * @version 1.0
  */
 public class DatabaseCarDao implements CarDao {
-	private static final String SQL_INSERT_CAR_WITH_DRIVERS = "INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, (SELECT id FROM cars WHERE cars.mark = ?))";//"INSERT INTO users_has_cars(users_id, cars_id) VALUES(?, ?)";
-	private static final String ADD_CARS_FOR_DRIVER_EXCEPTION = "Error adding car for driver!";
-	private static final String SQL_SELECT_CAR_BY_ID = "SELECT cars.id, cars.mark, cars.car_number, car_condition.status_car FROM cars INNER JOIN car_condition ON cars.car_condition_id = car_condition.id WHERE cars.id = ?";
-	private static final String GET_CAR_BY_ID_EXCEPTION = "Error! You cannot get car by id!";
 	private static Logger LOGGER = Logger.getLogger(DatabaseCarDao.class);
-	
 	
 	/**
 	 * Get all cars from the DB.
@@ -149,41 +144,7 @@ public class DatabaseCarDao implements CarDao {
 			//preparedStatementInsert.set(3, car.getUsers());
 			preparedStatementInsert.executeUpdate();
 			connection.commit();
-			//
-			/*System.out.println("=1");
-			
-			
-			preparedStatement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
-			for (User user : car.getUsers()) {
-				
-				System.out.println("=3");
-				preparedStatement.setLong(1, user.getId());
-				System.out.println("=4 " +user.getId());
-				preparedStatement.setString(2, car.getMark());
-				System.out.println("=5 " + car.getMark());
-				//preparedStatement.executeUpdate();
-				System.out.println("=7");
-				
-			}
-			System.out.println("=6");
-			preparedStatement.executeUpdate();
-			*/
-			//connection.commit();
-
-		/*	for (User user : car.getUsers()) {
-				//connection.setAutoCommit(false);
-
-				preparedStatement = connection.prepareStatement(SQL_INSERT_CAR_WITH_DRIVERS);
-				
-				preparedStatement.setLong(1, user.getId());
-				preparedStatement.setLong(2, car.getId());
-				preparedStatement.executeUpdate();
-				//connection.commit();
-				
-				
-			}*/
-			
-			
+		
 		} catch (SQLException e) {
 			try {
 				connection.rollback();

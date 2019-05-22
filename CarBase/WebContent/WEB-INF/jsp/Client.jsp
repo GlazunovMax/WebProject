@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/WEB-INF/jsp/error/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -39,6 +39,20 @@
 	<form class="" action="Controller" method="post">
 		<input type="hidden" name="command" value="go_to_add_order" /> 
 		<input class="button" type="submit" value="<fmt:message key="addOrder"/>"/>							
+	</form>
+	
+	<form class="" action="Controller" method="post">
+		<input type="hidden" name="command" value="go_to_add_feedback" /> 
+		<input type="hidden" name="id" value="${sessionScope.id}" /> 
+		
+		<input class="button" type="submit" value="<fmt:message key="addFeedback"/>"/>							
+	</form>
+	
+	<form class="" action="Controller" method="post">
+		<input type="hidden" name="command" value="get_feedback_by_id" /> 
+		<input type="hidden" name="id" value="${sessionScope.id}" /> 
+		
+		<input class="button" type="submit" value="<fmt:message key="showFeedbacks"/>"/>							
 	</form>
 </div>
 <!-- -------------------------------------------------------------------------------------- -->	
@@ -92,6 +106,70 @@
 <!-- ------------------------------------------------------------------------------------------------------------------- -->	
 
 
+
+<!--------------------------------TABLE WITH LIST FEEDBACK FOR CLIENT -------------------------------------->
+<div class="output-table-menu" >
+	<c:if test="${not empty requestScope.feedbacks}">
+		<table border="1">
+		<caption><fmt:message key="Feedbacks"/></caption>
+			
+		<tr>
+			<th>ID</th>
+			<th><fmt:message key="Feedback" /></th>
+			<th><fmt:message key="edit"/></th>
+			<th><fmt:message key="remove"/></th>
+		</tr>
+		
+		<c:forEach var="feedback" items="${requestScope.feedbacks}">
+			<tr>
+				<td>${feedback.id}</td>
+				<td>${feedback.text}</td>
+				
+				<td><a href="Controller?id=${feedback.id}&command=remove_feedback" onclick="if(!(confirm('Are you sure you want to delete this order?'))) return false"> 
+						<fmt:message key="remove"/>
+					</a>
+				</td>
+				<td>
+					<form class="" action="Controller" method="get">
+						<input type="hidden" name="command" value="show_edit_feedback_form" /> 
+						<input type="hidden" name="id" value="${feedback.id}" /> 
+						<input class="small-button" type="submit" value="<fmt:message key="edit"/>"/>							
+					</form>
+				</td>	
+			</tr>
+			
+		</c:forEach>
+		</table>
+		
+		<c:set var="command" value="get_feedback_by_id" scope="request"/>
+		<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>
+	
+	</c:if>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------  -->
+
+
+
+
+<!------------------------------ ADD NEW FEEDBACK -------------------------------------------->
+<div class="output-table-menu" >
+	<c:if test="${not empty requestScope.addNewFeedback}">	
+	
+		<form class="addFeedbackForm" action="Controller" method="post">	
+			<input type="hidden" name="command" value="add_feedback" /> 
+			<input type="hidden" name="id" value="${sessionScope.id}" />
+		
+			<p><b><fmt:message key="Feedback"/>:</b></p>
+  			<p><textarea rows="10" cols="45" name="feedback"></textarea></p>
+			
+			<input class="small-button" type="submit" value="<fmt:message key="send"/>"/>
+		</form>
+ 	</c:if>
+ </div> 
+<!------------------------------------------------------------------------------------------->
+	
+	
 	
 <!------------------------------------------------- ADD NEW ORDER ------------------------------------------------------------------------------->
 <jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
@@ -165,7 +243,9 @@
 </div>
 <!-- ------------------------------------------------------------------------------------------------------------------- -->	
 
-<!--------------------------------------------------------------- UPDATE ORDER FORM ------------------------------------------------------------->
+
+
+<!---------------------------------------------------------------SHOW/UPDATE ORDER FORM ------------------------------------------------------------->
 <div class="output-table-menu" >
 	<c:if test="${not empty requestScope.singleOrder}">	
 	
@@ -177,7 +257,7 @@
 		<table border="1">
 		<caption><fmt:message key="editOrder"/>  </caption>
 		 	<%-- <jsp:useBean id="cityService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CityServiceImpl" scope="application"/>
-		 	 --%><tr>
+		 --%><tr>
 		 		<td><fmt:message key="city_departure"/>:</td>
 		 		<td>
 				 	<select name="city_departure" style="background: #008080">
@@ -221,6 +301,34 @@
 	</c:if>
 </div>
 <!----------------------------------------------------------------------------------------------------------------------------------------  -->
+
+
+<!--------------------------------- SHOW/UPDATE FEEDBACK FORM -------------------------------------------------->
+<div class="output-table-menu" >
+	<c:if test="${not empty requestScope.singleFeedback}">	
+		<form class="addOrderForm" action="Controller" method="get">	
+			<input type="hidden" name="command" value="update_feedback" /> 
+			<input type="hidden" name="idClient" value="${sessionScope.id}" /> 
+			<input type="hidden" name="id" value="${requestScope.singleFeedback.id}" /> 
+			
+			<table border="1">
+				<caption><fmt:message key="editFeedback"/></caption>
+				
+			<tr>
+		 		<td><p><b><fmt:message key="Feedback"/>:</b></p></td>	
+		 		<td>
+  					<p><textarea rows="10" cols="45" name="feedback">${requestScope.singleFeedback.text}</textarea></p>
+				</td>
+		 	</tr>
+			</table>
+			
+			
+			<input class="small-button" type="submit" value="<fmt:message key="save"/>"/>
+		</form>
+	</c:if>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------->
 
 
 <jsp:include page="/WEB-INF/jsp/error/ClientError.jsp"/>

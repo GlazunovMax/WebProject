@@ -20,8 +20,7 @@ import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceExce
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
 
 public class AddCarsForDriver implements Command {
-	private static final String ID_DRIVER = "idDriver";
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();

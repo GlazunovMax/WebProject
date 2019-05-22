@@ -1,7 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.entity;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 

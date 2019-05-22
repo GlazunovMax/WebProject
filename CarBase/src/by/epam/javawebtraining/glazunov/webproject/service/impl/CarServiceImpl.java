@@ -19,9 +19,6 @@ import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.
  * @version 1.0
  */
 public class CarServiceImpl implements CarService {
-	private static final String MESSAGE_ERROR_ADD_CAR_FOR_DRIVER = "Can`t add car for driver!!!";
-	private static final String MESSAGE_ERROR_ADD_CARS_DRIVER = "Can`t add cars driver!!!";
-	private static final String MESSAGE_ERROR_GET_CAR_BY_ID = "Error!!! Can`t get car by id!";
 	private DaoFactory factory = DaoFactory.getInstance();
 	private CarDao carDao = factory.getCarDao();
 	

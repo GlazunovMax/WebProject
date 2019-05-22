@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/WEB-INF/jsp/error/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -44,16 +44,21 @@
 		<input class="button" type="submit" value="<fmt:message key="allRoute"/>"/>								
 	</form>
 	
-	 <form class="" action="Controller" method="POST">
+	<form class="" action="Controller" method="POST">
 		<input type="hidden" name="command" value="get_all_car" /> 
 		<input type="hidden" name="id" value="${sessionScope.id}" /> 
 		<input class="button" type="submit" value="<fmt:message key="allCars"/>"/>								
 	</form>
 	
-	 <form class="" action="Controller" method="POST">
+	<form class="" action="Controller" method="POST">
 		<input type="hidden" name="command" value="get_all_driver" /> 
 		<input type="hidden" name="id" value="${sessionScope.id}" /> 
 		<input class="button" type="submit" value="<fmt:message key="allDrivers"/>"/>								
+	</form>
+	
+	<form class="" action="Controller" method="POST">
+		<input type="hidden" name="command" value="get_all_feedback" /> 
+		<input class="button" type="submit" value="<fmt:message key="allFeedbacks"/>"/>								
 	</form>
 	
 </div>
@@ -180,7 +185,7 @@
 	
 
 
-<!----------------------------------------TABLE ALL CAR -------------------------------------->
+<!----------------------------------------TABLE ALL CAR -------------------------------------------------------------------->
 
 <c:if test="${not empty requestScope.carsList}">
 <table border="1" bgcolor="pink">
@@ -224,8 +229,42 @@
 	<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>	
 </c:if>
 
-<!------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------------------------------->
 
+
+
+<!--------------------------------------- GET ALL FEEDBACKS --------------------------------->
+<c:if test="${not empty requestScope.feedbacks}">
+	<table border="1" bgcolor="gray">
+		<caption><fmt:message key="Feedbacks"/></caption>
+		
+		<tr>
+			<th>ID</th>
+			<th><fmt:message key="Feedback" /></th>
+			<th><fmt:message key="user" /></th>
+		</tr>
+		
+		<c:choose>
+			<c:when test="${empty requestScope.feedbacks}">
+				<tr><td><fmt:message key="no_feedbacks"/></td></tr>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="feedback" items="${requestScope.feedbacks}">
+					<tr>
+						<td>${feedback.id}</td>
+						<td>${feedback.text}</td>
+						<td>${feedback.user.name} ${feedback.user.surname}</td>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>	
+	</table>
+	
+	<c:set var="command" value="get_all_feedback" scope="request"/>
+	<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>	
+</c:if>
+<!--------------------------------------------------------------------------------------------->
 
 
 
