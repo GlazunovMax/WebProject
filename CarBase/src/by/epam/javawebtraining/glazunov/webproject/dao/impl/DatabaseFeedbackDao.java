@@ -1,12 +1,16 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -21,7 +25,7 @@ import by.epam.javawebtraining.glazunov.webproject.entity.User;
 
 public class DatabaseFeedbackDao implements FeedbackDao {
 	private static Logger LOGGER = Logger.getLogger(DatabaseFeedbackDao.class);
-	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_PATTERN);
 	/**
 	 * Add the feedback to the database.
 	 * 
@@ -55,6 +59,7 @@ public class DatabaseFeedbackDao implements FeedbackDao {
 			//third transaction
 			statementInsertFeedback = connection.prepareStatement(SQL_INSERT_FEEDBACK_TRANSACTION);
 			statementInsertFeedback.setString(1, feedback.getText());
+			statementInsertFeedback.setTimestamp(2, Timestamp.valueOf(feedback.getDateTime()));
 			statementInsertFeedback.executeUpdate();
 
 			connection.commit();
@@ -195,7 +200,8 @@ public class DatabaseFeedbackDao implements FeedbackDao {
 			statement = connection.prepareStatement(SQL_UPDATE_FEEDBACK_BY_ID);
 			
 			statement.setString(1, feedback.getText());
-			statement.setLong(2, feedback.getId());
+			statement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now().plusHours(3)));
+			statement.setLong(3, feedback.getId());
 			
 			statement.executeUpdate();
 			
@@ -209,7 +215,12 @@ public class DatabaseFeedbackDao implements FeedbackDao {
 		
 	}
 
-
+	/**
+	 * Get the Feedback by id.
+	 *  
+	 *  @param id - feeedback's id
+	 *  @throws DaoException - if can't get the Feedback by id
+	 */
 	@Override
 	public Feedback getFeedbackById(long id) throws DaoException {
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -250,6 +261,7 @@ public class DatabaseFeedbackDao implements FeedbackDao {
 		
 		feedback.setId(resultSet.getLong(ID));
 		feedback.setText(resultSet.getString("review"));
+		feedback.setDateTime(LocalDateTime.parse(resultSet.getString("date_time"),formatter));
 			client.setId(resultSet.getLong(CLIENT_ID));
 			client.setName(resultSet.getString(NAME));
 			client.setSurname(resultSet.getString(SURNAME));

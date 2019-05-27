@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +21,6 @@ import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.FactoryConne
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
  * The DatabaseUserDao class provides interaction the User with the database.
@@ -62,20 +62,11 @@ public class DatabaseUserDao implements UserDao {
 			resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
-				user.setId(resultSet.getLong(ID));
-				user.setName(resultSet.getString(NAME));
-				user.setSurname(resultSet.getString(SURNAME));
-				user.setLogin(resultSet.getString(LOGIN));
-				user.setPassword(resultSet.getString(PASSWORD));
-				user.setPhoneNumber(resultSet.getString(PHONE));
-				// role.setTitleRole(resultSet.getString(TITLE));
-				user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-
+				user = createUser(resultSet);
 			} else {
 				user = null;
 				LOGGER.debug(MESSAGE_USER_NOT_REGISTER);
 			}
-
 		} catch (SQLException e) {
 			throw new DaoException(MESSAGE_SIGH_IN_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
@@ -177,16 +168,7 @@ public class DatabaseUserDao implements UserDao {
 			resultSet = statement.executeQuery(SQL_SELECT_ALL_DRIVERS);
 			
 			while (resultSet.next()) {
-				user = new User();
-				
-				user.setId(resultSet.getLong(ID));
-				user.setName(resultSet.getString(NAME));
-				user.setSurname(resultSet.getString(SURNAME));
-				user.setLogin(resultSet.getString(LOGIN));
-				user.setPassword(resultSet.getString(PASSWORD));
-				user.setPhoneNumber(resultSet.getString(PHONE));
-				user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				
+				user = createUser(resultSet);
 				
 				Long id = resultSet.getLong(ID);
 				preparedStatement = connection.prepareStatement(SQL_SELECT_DRIVERS_CAR);
@@ -241,16 +223,7 @@ public class DatabaseUserDao implements UserDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				user = new User();
-				
-				user.setId(resultSet.getLong(ID));
-				user.setName(resultSet.getString(NAME));
-				user.setSurname(resultSet.getString(SURNAME));
-				user.setLogin(resultSet.getString(LOGIN));
-				user.setPassword(resultSet.getString(PASSWORD));
-				user.setPhoneNumber(resultSet.getString(PHONE));
-				user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				
+				user = createUser(resultSet);
 			}
 		} catch (SQLException e) {
 			throw new DaoException(GET_USER_BY_ID_EXCEPTION);
@@ -261,6 +234,26 @@ public class DatabaseUserDao implements UserDao {
 			ResourceClose.closePreparedStatement(statement);
 		}
 	
+		return user;
+	}
+
+	/**
+	 * 
+	 * @param resultSet - data from the database
+	 * @return user
+	 * @throws SQLException - Error in the request to the database
+	 */
+	private User createUser(ResultSet resultSet) throws SQLException {
+		User user = new User();
+		
+		user.setId(resultSet.getLong(ID));
+		user.setName(resultSet.getString(NAME));
+		user.setSurname(resultSet.getString(SURNAME));
+		user.setLogin(resultSet.getString(LOGIN));
+		user.setPassword(resultSet.getString(PASSWORD));
+		user.setPhoneNumber(resultSet.getString(PHONE));
+		user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
+		
 		return user;
 	}
 

@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.service.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +11,6 @@ import by.epam.javawebtraining.glazunov.webproject.dao.factory.DaoFactory;
 import by.epam.javawebtraining.glazunov.webproject.entity.Route;
 import by.epam.javawebtraining.glazunov.webproject.service.RouteService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
  * The RouteService class implements business logic.

@@ -1,6 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,7 +36,7 @@ public class GetAllFeedback implements Command {
 		
 		try {
 			feedbacks = feedbackService.getAllFeedback((page-1)*rowsPerPage, rowsPerPage);
-		
+
 			if(!feedbacks.isEmpty()){
 				int countRowAllCar = countRowService.getAllFeedbackCount();
 				int countRows = (int) Math.ceil(countRowAllCar * 1.0 / rowsPerPage);

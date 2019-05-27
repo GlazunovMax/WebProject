@@ -1,6 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +18,6 @@ import by.epam.javawebtraining.glazunov.webproject.service.CountRowService;
 import by.epam.javawebtraining.glazunov.webproject.service.FeedbackService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class GetFeedbackById implements Command {
 
@@ -40,10 +38,10 @@ public class GetFeedbackById implements Command {
 		FeedbackService feedbackService = factory.getFeedbackService();
 		CountRowService countRowService = factory.getCountRowService();
 		
-		
+
 		try {
 			feedbacks = feedbackService.getAllFeedbackByClientId(id,(page-1)*rowsPerPage, rowsPerPage);
-		
+			
 			if(!feedbacks.isEmpty()){
 				int countRowAllFeedback = countRowService.getAllFeedbackByIdClientCount(id);
 				int countRows = (int) Math.ceil(countRowAllFeedback * 1.0 / rowsPerPage);

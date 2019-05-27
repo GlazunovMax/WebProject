@@ -1,11 +1,11 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,10 +19,7 @@ import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPo
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.FactoryConnectionPool;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
-import by.epam.javawebtraining.glazunov.webproject.entity.City;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 /**
  * The DatabaseCarDao class provides interaction car with the database.
  * 
@@ -62,13 +59,8 @@ public class DatabaseCarDao implements CarDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				car = new Car();
-
-				car.setId(resultSet.getLong(ID));
-				car.setMark(resultSet.getString(MARK));
-				car.setNumber(resultSet.getString(CAR_NUMBER));
-				car.setStatusCar(Car.StatusCar.valueOf(resultSet.getString(CAR_CONDITION).toUpperCase()));
-				
+				car = createCar(resultSet);
+					
 				long id = resultSet.getLong(ID);
 				
 				preparedStatement = connection.prepareStatement(SQL_SELECT_DRIVERS);
@@ -192,6 +184,7 @@ public class DatabaseCarDao implements CarDao {
 		
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
+		Car car = null;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_CARS_BY_ID_DRIVER);
@@ -202,13 +195,8 @@ public class DatabaseCarDao implements CarDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				Car car = new Car();
+				car = createCar(resultSet);
 				
-				car.setId(resultSet.getLong(ID));
-				car.setMark(resultSet.getString(MARK));
-				car.setNumber(resultSet.getString(CAR_NUMBER));
-				car.setStatusCar(Car.StatusCar.valueOf(resultSet.getString(CAR_CONDITION).toUpperCase()));
-			
 				cars.add(car);
 			}
 
@@ -309,13 +297,7 @@ public class DatabaseCarDao implements CarDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				car = new Car();
-				
-				car.setId(resultSet.getLong(ID));
-				car.setMark(resultSet.getString(MARK));					
-				car.setNumber(resultSet.getString(CAR_NUMBER));
-				car.setStatusCar(Car.StatusCar.valueOf(resultSet.getString(CAR_CONDITION).toUpperCase()));				
-				
+				car = createCar(resultSet);
 			}
 		} catch (SQLException e) {
 			throw new DaoException(GET_CAR_BY_ID_EXCEPTION);
@@ -325,6 +307,19 @@ public class DatabaseCarDao implements CarDao {
 			ResourceClose.closeResultSet(resultSet);
 			ResourceClose.closePreparedStatement(statement);
 		}
+		return car;
+	}
+
+	
+	
+	private Car createCar(ResultSet resultSet) throws SQLException {
+		Car car = new Car();
+		
+		car.setId(resultSet.getLong(ID));
+		car.setMark(resultSet.getString(MARK));					
+		car.setNumber(resultSet.getString(CAR_NUMBER));
+		car.setStatusCar(Car.StatusCar.valueOf(resultSet.getString(CAR_CONDITION).toUpperCase()));	
+		
 		return car;
 	}
 }

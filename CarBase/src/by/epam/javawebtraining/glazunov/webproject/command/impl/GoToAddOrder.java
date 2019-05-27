@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -8,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.epam.javawebtraining.glazunov.webproject.command.Command;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class GoToAddOrder implements Command {
 

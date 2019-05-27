@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +18,6 @@ import by.epam.javawebtraining.glazunov.webproject.service.CarService;
 import by.epam.javawebtraining.glazunov.webproject.service.UserService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class AddCar implements Command{
 

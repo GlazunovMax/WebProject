@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.service.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,8 +14,6 @@ import by.epam.javawebtraining.glazunov.webproject.entity.Order;
 import by.epam.javawebtraining.glazunov.webproject.entity.Route;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class Validation {
 

@@ -1,6 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.service.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import by.epam.javawebtraining.glazunov.webproject.dao.CountRowDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;

@@ -1,6 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

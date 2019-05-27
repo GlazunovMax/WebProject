@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.epam.javawebtraining.glazunov.webproject.command.Command;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class ChangeLocale implements Command{
 	

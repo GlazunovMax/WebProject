@@ -1,6 +1,6 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

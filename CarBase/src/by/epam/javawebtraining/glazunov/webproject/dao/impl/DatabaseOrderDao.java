@@ -1,10 +1,11 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,18 +14,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import by.epam.javawebtraining.glazunov.webproject.dao.ItemDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.OrderDao;
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPool;
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPoolException;
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.FactoryConnectionPool;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
-import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
 import by.epam.javawebtraining.glazunov.webproject.entity.Order;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
   * The DatabaseOrderDao class provides interaction the Order with the database.
@@ -54,9 +51,6 @@ public class DatabaseOrderDao implements OrderDao {
 		ResultSet resultSet = null;
 	
 		Order order = null;
-		City departure = null;
-		City destination = null;
-		User user = null;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			
@@ -67,31 +61,7 @@ public class DatabaseOrderDao implements OrderDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				
-				order = new Order();
-				departure = new City();
-				destination = new City();
-				user = new User();
-				
-				order.setId(resultSet.getLong(ID));
-					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-					departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE)); // err
-				order.setDeparture(departure);
-					destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-					destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-				order.setDestination(destination);
-				order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE),formatter));
-				order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-					user.setId(resultSet.getLong(USER_ID));
-					user.setName(resultSet.getString(NAME));
-					user.setSurname(resultSet.getString(SURNAME));
-					user.setLogin(resultSet.getString(LOGIN));
-					user.setPassword(resultSet.getString(PASSWORD));
-					user.setPhoneNumber(resultSet.getString(PHONE));
-					user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				order.setUser(user);
-				
-				
+				order = createOrder(resultSet);
 				orders.add(order);
 			}	
 		} catch (SQLException e) {
@@ -114,7 +84,7 @@ public class DatabaseOrderDao implements OrderDao {
 	 *  @throws DaoException - if can't get all the orders owned by the specific client
 	 */
 	@Override
-	public List<Order> getOrderById(Long id, int offset, int countRows) throws DaoException {// такой в routr
+	public List<Order> getOrderById(Long id, int offset, int countRows) throws DaoException {
 		List<Order> orders = new ArrayList<>();
 		
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -124,9 +94,6 @@ public class DatabaseOrderDao implements OrderDao {
 		ResultSet resultSet = null;
 	
 		Order order = null;
-		City departure = null;
-		City destination = null;
-		User user = null;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			
@@ -138,31 +105,7 @@ public class DatabaseOrderDao implements OrderDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				
-				order = new Order();
-				departure = new City();
-				destination = new City();
-				user = new User();
-				
-				order.setId(resultSet.getLong(ID));
-					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-					departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE)); 
-				order.setDeparture(departure);
-					destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-					destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-				order.setDestination(destination);
-				order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE),formatter));
-				order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-					user.setId(resultSet.getLong(USER_ID));
-					user.setName(resultSet.getString(NAME));
-					user.setSurname(resultSet.getString(SURNAME));
-					user.setLogin(resultSet.getString(LOGIN));
-					user.setPassword(resultSet.getString(PASSWORD));
-					user.setPhoneNumber(resultSet.getString(PHONE));
-					user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				order.setUser(user);
-				
-				
+				order = createOrder(resultSet);
 				orders.add(order);
 			}	
 		} catch (SQLException e) {
@@ -278,9 +221,6 @@ public class DatabaseOrderDao implements OrderDao {
 		ResultSet resultSet = null;
 	
 		Order order = null;
-		City departure = null;
-		City destination = null;
-		User user = null;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			
@@ -290,29 +230,7 @@ public class DatabaseOrderDao implements OrderDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				
-				order = new Order();
-				departure = new City();
-				destination = new City();
-				user = new User();
-				
-				order.setId(resultSet.getLong(ID));
-					departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-					departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE)); // err
-				order.setDeparture(departure);
-					destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-					destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-				order.setDestination(destination);
-				order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
-				order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-					user.setId(resultSet.getLong(USER_ID));
-					user.setName(resultSet.getString(NAME));
-					user.setSurname(resultSet.getString(SURNAME));
-					user.setLogin(resultSet.getString(LOGIN));
-					user.setPassword(resultSet.getString(PASSWORD));
-					user.setPhoneNumber(resultSet.getString(PHONE));
-					user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
-				order.setUser(user);		
+				order = createOrder(resultSet);		
 			}	
 		} catch (SQLException e) {
 			throw new DaoException(GET_ORDER_EXCEPTION_BY_ID);
@@ -326,6 +244,12 @@ public class DatabaseOrderDao implements OrderDao {
 		
 	}
 
+	/**
+	 * Update the order in the DB
+	 * 
+	 * @param order - the order
+	 * @throws DaoException if can't update the order in the DB
+	 */
 	@Override
 	public void updateOrder(Order order) throws DaoException {
 		FactoryConnectionPool factoryConnectionPool = FactoryConnectionPool.getInstance();
@@ -356,5 +280,37 @@ public class DatabaseOrderDao implements OrderDao {
 	}
 
 	
+	/**
+	 * 
+	 * @param resultSet - data from the database
+	 * @return order
+	 * @throws SQLException - Error in the request to the database
+	 */
+	private Order createOrder(ResultSet resultSet) throws SQLException {
+		Order order = new Order();
+		City departure = new City();
+		City destination = new City();
+		User user = new User();
+		
+		order.setId(resultSet.getLong(ID));
+			departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
+			departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE));
+		order.setDeparture(departure);
+			destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
+			destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
+		order.setDestination(destination);
+		order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
+		order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
+			user.setId(resultSet.getLong(USER_ID));
+			user.setName(resultSet.getString(NAME));
+			user.setSurname(resultSet.getString(SURNAME));
+			user.setLogin(resultSet.getString(LOGIN));
+			user.setPassword(resultSet.getString(PASSWORD));
+			user.setPhoneNumber(resultSet.getString(PHONE));
+			user.setRole(User.Role.valueOf(resultSet.getString(TITLE).toUpperCase()));
+		order.setUser(user);
+		
+		return order;
+	}
 
 }

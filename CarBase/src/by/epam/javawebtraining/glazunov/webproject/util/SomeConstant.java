@@ -1,4 +1,4 @@
-package by.epam.javawebtraining.glazunov.webproject.dao.impl;
+package by.epam.javawebtraining.glazunov.webproject.util;
 
 public class SomeConstant {
 
@@ -64,16 +64,16 @@ public class SomeConstant {
 	//DatabaseFeedbackDao
 	public static final String SQL_TRANSACTION_VARIABLE_ADD_CLIENT_ID = "SET @client_id = 0";
 	public static final String SQL_SELECT_TRANSACTION_CLIENT_ID = "SELECT id INTO @client_id FROM users WHERE surname = ?";
-	public static final String SQL_INSERT_FEEDBACK_TRANSACTION = "INSERT INTO feedback(review, user_id) VALUES(?, @client_id)";
+	public static final String SQL_INSERT_FEEDBACK_TRANSACTION = "INSERT INTO feedback(review, date_time, user_id) VALUES(?, ?, @client_id)";
 	public static final String ADD_FEEDBACK_EXCEPTION = "Error adding feedback!";
 	public static final String SQL_REMOVE_FEEDBACK = "DELETE FROM feedback WHERE id = ?";
 	public static final String REMOVE_FEEDBACK_EXCEPTION = "Error remove feedback by id!";
-	public static final String SQL_SELECT_ALL_FEEDBACKS = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id LIMIT ?,?";
+	public static final String SQL_SELECT_ALL_FEEDBACKS = "SELECT feedback.id, feedback.review, feedback.date_time, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id ORDER BY date_time DESC LIMIT ?,?";
 	public static final String GET_ALL_FEEDBACK_EXCEPTION = "Error! You cannot get all feedback!";
-	public static final String SQL_SELECT_ALL_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE users.id = ? LIMIT ?,?";
-	public static final String SQL_UPDATE_FEEDBACK_BY_ID = "UPDATE feedback SET feedback.review = ? WHERE feedback.id = ?";
+	public static final String SQL_SELECT_ALL_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, feedback.date_time, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE users.id = ? ORDER BY date_time DESC LIMIT ?,?";
+	public static final String SQL_UPDATE_FEEDBACK_BY_ID = "UPDATE feedback SET feedback.review = ?, feedback.date_time = ? WHERE feedback.id = ?";
 	public static final String UPDATE_FEEDBACK_EXCEPTION = "Error! You cannot update feedback!";
-	public static final String SQL_SELECT_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE feedback.id = ?";
+	public static final String SQL_SELECT_FEEDBACK_BY_ID = "SELECT feedback.id, feedback.review, feedback.date_time, users.id AS client_id, users.name, users.surname, users.login, users.password, users.phone, roles.title FROM feedback INNER JOIN users ON feedback.user_id = users.id INNER JOIN roles ON roles.id = users.role_id WHERE feedback.id = ?";
 	public static final String GET_FEEDBACK_EXCEPTION_BY_ID = "Error! You cannot get Feedback by id!";
 
 	
@@ -444,6 +444,10 @@ public class SomeConstant {
 	public static final String REDIRECT_UPDATE_FEEDBACK_PATH_TO_CLIENT_JSP = "http://localhost:8080/CarBase/Controller?command=select_page&page=CLIENT&UpdateFeedbackSuccess=Feedback successful updated!";
 	public static final String ERROR_UPDATE_FEEDBACK = "errorUpdateFeedback";
 	public static final String FEEDBACK = "feedback";
-	public static final String ID_CLIENT = "idClient";;
+	public static final String ID_CLIENT = "idClient";
+	public static final String PATTERN_FEEDBACK_DATETIME = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FEEDBACK = "date";
+
+	
 
 }

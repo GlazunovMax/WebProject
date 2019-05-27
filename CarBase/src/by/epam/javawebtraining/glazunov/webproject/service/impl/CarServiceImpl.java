@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.service.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.util.List;
 import java.util.Set;
 
@@ -10,8 +12,6 @@ import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.CarService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
  * The CarService class implements business logic.

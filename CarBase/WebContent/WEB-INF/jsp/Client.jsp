@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/WEB-INF/jsp/error/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page import="java.util.Date" %>
 
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="messages" />
@@ -116,6 +117,7 @@
 		<tr>
 			<th>ID</th>
 			<th><fmt:message key="Feedback" /></th>
+			<th><fmt:message key="date_time"/></th>
 			<th><fmt:message key="edit"/></th>
 			<th><fmt:message key="remove"/></th>
 		</tr>
@@ -124,6 +126,7 @@
 			<tr>
 				<td>${feedback.id}</td>
 				<td>${feedback.text}</td>
+				<td>${feedback.dateTime}</td>
 				
 				<td><a href="Controller?id=${feedback.id}&command=remove_feedback" onclick="if(!(confirm('Are you sure you want to delete this order?'))) return false"> 
 						<fmt:message key="remove"/>
@@ -151,6 +154,10 @@
 
 
 
+<!-----------------------------CURREENT DATETIME FOR FEEDBSCK ----------------- -->
+<jsp:useBean id="now" class="java.util.Date"/>
+<fmt:formatDate var="currentDate" pattern="yyyy-MM-dd HH:mm:ss" value="${now}" />
+<!-------------------------------------------------------------------------------->
 
 <!------------------------------ ADD NEW FEEDBACK -------------------------------------------->
 <div class="output-table-menu" >
@@ -159,9 +166,12 @@
 		<form class="addFeedbackForm" action="Controller" method="post">	
 			<input type="hidden" name="command" value="add_feedback" /> 
 			<input type="hidden" name="id" value="${sessionScope.id}" />
+			<input type="hidden" name="date" value="${currentDate}"/>
 		
 			<p><b><fmt:message key="Feedback"/>:</b></p>
   			<p><textarea rows="10" cols="45" name="feedback"></textarea></p>
+  			
+  			
 			
 			<input class="small-button" type="submit" value="<fmt:message key="send"/>"/>
 		</form>
@@ -284,7 +294,8 @@
 		 	<tr>
 		 		<td><fmt:message key="timeDate"/>:</td>	
 		 		<td>
-					<input type="text" name="time_departure" value="${requestScope.singleOrder.timeDeparture}">
+					<%-- <input type="text" name="time_departure" value="${requestScope.singleOrder.timeDeparture}"> --%>
+					<input type="text" name="time_departure" value="${requestScope.timeDeparture}">
 				</td>
 		 	</tr>
 		 	
@@ -310,6 +321,7 @@
 			<input type="hidden" name="command" value="update_feedback" /> 
 			<input type="hidden" name="idClient" value="${sessionScope.id}" /> 
 			<input type="hidden" name="id" value="${requestScope.singleFeedback.id}" /> 
+			<input type="hidden" name="date" value="${currentDate}">
 			
 			<table border="1">
 				<caption><fmt:message key="editFeedback"/></caption>

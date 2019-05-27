@@ -1,8 +1,8 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.MESSAGE_CONNECTION_POOL_EXCEPTION;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.REMOVE_CITY_EXCEPTION;
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.SQL_DELETE_UPDATE_CITY;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.MESSAGE_CONNECTION_POOL_EXCEPTION;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.REMOVE_CITY_EXCEPTION;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.SQL_DELETE_UPDATE_CITY;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

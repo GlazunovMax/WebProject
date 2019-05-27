@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +18,6 @@ import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.ConnectionPo
 import by.epam.javawebtraining.glazunov.webproject.dao.dbConnection.FactoryConnectionPool;
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
  * The DatabaseCityDao class provides interaction the city with the database.
@@ -49,11 +49,7 @@ public class DatabaseCityDao implements CityDao {
 			resultSet = statement.executeQuery(SQL_SELECT_ALL_CITIES);
 
 			while (resultSet.next()) {
-				city = new City();
-
-				city.setId(resultSet.getInt(ID));
-				city.setCityName(resultSet.getString(NAME));
-
+				city = createCity(resultSet);
 				cities.add(city);
 			}
 		} catch (SQLException e) {
@@ -133,10 +129,7 @@ public class DatabaseCityDao implements CityDao {
 			resultSet = statement.executeQuery();
 			
 			while (resultSet.next()) {
-				city = new City();
-				
-				city.setId(resultSet.getLong(ID));
-				city.setCityName(resultSet.getString(NAME));
+				city = createCity(resultSet);
 			}
 		
 		} catch (SQLException e) {
@@ -149,5 +142,14 @@ public class DatabaseCityDao implements CityDao {
 		}
 		return city;
 
+	}
+
+	private City createCity(ResultSet resultSet) throws SQLException {
+		City city = new City();
+		
+		city.setId(resultSet.getLong(ID));
+		city.setCityName(resultSet.getString(NAME));
+		
+		return city;
 	}
 }

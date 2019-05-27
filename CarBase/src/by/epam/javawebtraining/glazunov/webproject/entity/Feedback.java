@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.entity;
 
+import java.time.LocalDateTime;
+
 /**
  * 
  * @author Glazunov
@@ -10,6 +12,7 @@ public class Feedback extends Model{
 	
 	private String text;
 	private User user;
+	private LocalDateTime dateTime;
 	
 	/**
 	 * Creates a new object
@@ -61,10 +64,27 @@ public class Feedback extends Model{
 		this.user = user;
 	}
 
+	/**
+	 * Method of obtaining the value of the field {@link Feedback#dateTime}
+	 * @return dateTime
+	 */
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	/**
+	 * Method of setting the value of the field {@link Feedback#dateTime}
+	 * @param dateTime
+	 */
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -79,6 +99,11 @@ public class Feedback extends Model{
 		if (getClass() != obj.getClass())
 			return false;
 		Feedback other = (Feedback) obj;
+		if (dateTime == null) {
+			if (other.dateTime != null)
+				return false;
+		} else if (!dateTime.equals(other.dateTime))
+			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;
@@ -94,7 +119,7 @@ public class Feedback extends Model{
 
 	@Override
 	public String toString() {
-		return "Feedback [text=" + text + ", user=" + user + "]";
+		return "Feedback [text=" + text + ", user=" + user + ", dateTime=" + dateTime + "]";
 	}
 	
 }

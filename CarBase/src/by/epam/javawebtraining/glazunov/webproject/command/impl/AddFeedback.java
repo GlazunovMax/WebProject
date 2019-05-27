@@ -1,8 +1,10 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,11 +28,13 @@ public class AddFeedback implements Command {
 		ServiceFactory factory = ServiceFactory.getInstance();
 		FeedbackService feedbackService = factory.getFeedbackService();
 		UserService userService = factory.getUserService();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_FEEDBACK_DATETIME);
 		
 		
 		try {
-			feedback.setText(request.getParameter("feedback"));
-			feedback.setUser(userService.getUserById(Long.parseLong(request.getParameter("id"))));
+			feedback.setText(request.getParameter(FEEDBACK));
+			feedback.setDateTime(LocalDateTime.parse(request.getParameter(DATE_FEEDBACK),formatter).plusHours(3));
+			feedback.setUser(userService.getUserById(Long.parseLong(request.getParameter(ID))));
 			
 			feedbackService.addFeedBack(feedback);
 			

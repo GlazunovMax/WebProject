@@ -1,12 +1,11 @@
 package by.epam.javawebtraining.glazunov.webproject.dao.impl;
 
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import by.epam.javawebtraining.glazunov.webproject.entity.User;
  * @author Glazunov
  * @version 1.0
  */
-public class DatabaseRouteDao implements RouteDao {//??????getAll()
+public class DatabaseRouteDao implements RouteDao {
 	private static Logger LOGGER = Logger.getLogger(DatabaseRouteDao.class);
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_PATTERN);
 	
@@ -51,57 +50,17 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 		ResultSet resultSet = null;
 
 		Route route = null;
-		Order order = null;
-		User client = null;
-		User driver = null;
-		City departure = null;
-		City destination = null;
 
 		try (Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_ALL_ROUTES);
 			
-			statement.setInt(1, offset); //8
-			statement.setInt(2, countRows);//8
+			statement.setInt(1, offset);
+			statement.setInt(2, countRows);
 			resultSet = statement.executeQuery();
 			
 
 			while (resultSet.next()) {
-				route = new Route();
-				order = new Order();
-				driver = new User();
-				client = new User();
-				departure = new City();
-				destination = new City();
-				
-				route.setId(resultSet.getLong(ID));
-					order.setId(resultSet.getLong(ORDERS_ID));
-						departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-						departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE));
-					order.setDeparture(departure);
-						destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-						destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-					order.setDestination(destination);
-					order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
-					order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-						client.setId(resultSet.getLong(CLIENT_ID));
-						client.setName(resultSet.getString(CLIENT_NAME));
-						client.setSurname(resultSet.getString(CLIENT_SURNAME));
-						client.setLogin(resultSet.getString(CLIENT_LOGIN));
-						client.setPassword(resultSet.getString(CLIENT_PASSWORD));
-						client.setPhoneNumber(resultSet.getString(CLIENT_PHONE));
-						client.setRole(User.Role.valueOf(resultSet.getString(CLIENT_TITLE).toUpperCase()));
-					order.setUser(client);
-				route.setOrder(order);
-					driver.setId(resultSet.getLong(DRIVER_ID));
-					driver.setName(resultSet.getString(DRIVER_NAME));
-					driver.setSurname(resultSet.getString(DRIVER_SURNAME));
-					driver.setLogin(resultSet.getString(DRIVER_LOGIN));
-					driver.setPassword(resultSet.getString(DRIVER_PASSWORD));
-					driver.setPhoneNumber(resultSet.getString(DRIVER_PHONE));
-					driver.setRole(User.Role.valueOf(resultSet.getString(DRIVER_TITLE).toUpperCase()));
-				route.setDriver(driver);
-				route.setMark(Route.Mark.valueOf(resultSet.getString(DONE).toUpperCase()));
-				
+				route = createRoute(resultSet);
 				routes.add(route);			
 			}
 		} catch (SQLException e) {
@@ -133,11 +92,6 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 		ResultSet resultSet = null;
 
 		Route route = null;
-		Order order = null;
-		User client = null;
-		User driver = null;
-		City departure = null;
-		City destination = null;
 
 		try (Connection connection = connectionPool.takeConnection()) {
 			statement = connection.prepareStatement(SQL_SELECT_ALL_ROUTES_BY_ID);
@@ -148,42 +102,7 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 			resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				route = new Route();
-				order = new Order();
-				driver = new User();
-				client = new User();
-				departure = new City();
-				destination = new City();
-				
-				route.setId(resultSet.getLong(ID));
-					order.setId(resultSet.getLong(ORDERS_ID));
-						departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
-						departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE));
-					order.setDeparture(departure);
-						destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
-						destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
-					order.setDestination(destination);
-					order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
-					order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
-						client.setId(resultSet.getLong(CLIENT_ID));
-						client.setName(resultSet.getString(CLIENT_NAME));
-						client.setSurname(resultSet.getString(CLIENT_SURNAME));
-						client.setLogin(resultSet.getString(CLIENT_LOGIN));
-						client.setPassword(resultSet.getString(CLIENT_PASSWORD));
-						client.setPhoneNumber(resultSet.getString(CLIENT_PHONE));
-						client.setRole(User.Role.valueOf(resultSet.getString(CLIENT_TITLE).toUpperCase()));
-					order.setUser(client);
-				route.setOrder(order);
-					driver.setId(resultSet.getLong(DRIVER_ID));
-					driver.setName(resultSet.getString(DRIVER_NAME));
-					driver.setSurname(resultSet.getString(DRIVER_SURNAME));
-					driver.setLogin(resultSet.getString(DRIVER_LOGIN));
-					driver.setPassword(resultSet.getString(DRIVER_PASSWORD));
-					driver.setPhoneNumber(resultSet.getString(DRIVER_PHONE));
-					driver.setRole(User.Role.valueOf(resultSet.getString(DRIVER_TITLE).toUpperCase()));
-				route.setDriver(driver);
-				route.setMark(Route.Mark.valueOf(resultSet.getString(DONE).toUpperCase()));
-				
+				route = createRoute(resultSet);
 				routes.add(route);			
 			}
 		} catch (SQLException e) {
@@ -238,9 +157,9 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 			// 4 - FORTH transaction
 			statementInsert = connection.prepareStatement(SQL_INSERT_ROUTE_TRANSACTION);
 			System.out.println(2);
-			statementInsert.setString(1, String.valueOf(route.getMark()));//.toStriing
+			statementInsert.setString(1, String.valueOf(route.getMark()));
 			System.out.println(3);
-			statementInsert.executeUpdate();//errr
+			statementInsert.executeUpdate();
 
 			System.out.println(4);
 			connection.commit();
@@ -290,10 +209,51 @@ public class DatabaseRouteDao implements RouteDao {//??????getAll()
 		DaoSource.edit(id, name, SQL_EDIT_MARK_ROUTE, EDIT_MARK_ROUTE_EXCEPTION);
 	}
 
-	/*@Override
-	public List<Route> getAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	/**
+	 * 
+	 * @param resultSet - data from the database
+	 * @return route
+	 * @throws SQLException - Error in the request to the database
+	 */
+	private Route createRoute(ResultSet resultSet) throws SQLException {
+		Route route = new Route();
+		Order order = new Order();
+		User driver = new User();
+		User client = new User();
+		City departure = new City();
+		City destination = new City();
+		
+		route.setId(resultSet.getLong(ID));
+			order.setId(resultSet.getLong(ORDERS_ID));
+				departure.setId(resultSet.getLong(ID_CITY_DEPARTURE));
+				departure.setCityName(resultSet.getString(CITY_NAME_DEPARTURE));
+			order.setDeparture(departure);
+				destination.setId(resultSet.getLong(ID_CITY_DESTINATION));
+				destination.setCityName(resultSet.getString(CITY_NAME_DESTINATION));
+			order.setDestination(destination);
+			order.setTimeDeparture(LocalDateTime.parse(resultSet.getString(TIME_DEPARTURE), formatter));
+			order.setCountPassenger(resultSet.getInt(COUNT_PASSENGER));
+				client.setId(resultSet.getLong(CLIENT_ID));
+				client.setName(resultSet.getString(CLIENT_NAME));
+				client.setSurname(resultSet.getString(CLIENT_SURNAME));
+				client.setLogin(resultSet.getString(CLIENT_LOGIN));
+				client.setPassword(resultSet.getString(CLIENT_PASSWORD));
+				client.setPhoneNumber(resultSet.getString(CLIENT_PHONE));
+				client.setRole(User.Role.valueOf(resultSet.getString(CLIENT_TITLE).toUpperCase()));
+			order.setUser(client);
+		route.setOrder(order);
+			driver.setId(resultSet.getLong(DRIVER_ID));
+			driver.setName(resultSet.getString(DRIVER_NAME));
+			driver.setSurname(resultSet.getString(DRIVER_SURNAME));
+			driver.setLogin(resultSet.getString(DRIVER_LOGIN));
+			driver.setPassword(resultSet.getString(DRIVER_PASSWORD));
+			driver.setPhoneNumber(resultSet.getString(DRIVER_PHONE));
+			driver.setRole(User.Role.valueOf(resultSet.getString(DRIVER_TITLE).toUpperCase()));
+		route.setDriver(driver);
+		route.setMark(Route.Mark.valueOf(resultSet.getString(DONE).toUpperCase()));
+		
+		return route;	
 	}
-*/
+	
 }

@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.command.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -13,8 +15,6 @@ import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.UserService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
 import by.epam.javawebtraining.glazunov.webproject.service.factory.ServiceFactory;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 public class SingIn implements Command {
 	@Override

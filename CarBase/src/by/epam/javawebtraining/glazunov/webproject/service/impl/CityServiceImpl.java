@@ -1,5 +1,7 @@
 package by.epam.javawebtraining.glazunov.webproject.service.impl;
 
+import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
+
 import java.util.List;
 
 import by.epam.javawebtraining.glazunov.webproject.dao.CityDao;
@@ -8,8 +10,6 @@ import by.epam.javawebtraining.glazunov.webproject.dao.factory.DaoFactory;
 import by.epam.javawebtraining.glazunov.webproject.entity.City;
 import by.epam.javawebtraining.glazunov.webproject.service.CityService;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;
-
-import static by.epam.javawebtraining.glazunov.webproject.dao.impl.SomeConstant.*;
 
 /**
  * The CityService class implements business logic.
