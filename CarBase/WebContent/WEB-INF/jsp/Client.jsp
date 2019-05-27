@@ -16,9 +16,9 @@
 <body>
 
 <!-------------------------- HEADER ----------------------------------------->
-<jsp:include page="/WEB-INF/jsp/fragment/LocalePage.jsp" />
-<c:set var="Role" value="Client" scope="request"/>
-<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
+	<jsp:include page="/WEB-INF/jsp/fragment/LocalePage.jsp" />
+	<c:set var="Role" value="Client" scope="request"/>
+	<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
 <!-- --------------------------------------------------------------------- -->	
 
 

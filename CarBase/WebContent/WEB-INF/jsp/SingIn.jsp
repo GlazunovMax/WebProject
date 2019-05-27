@@ -11,7 +11,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><fmt:message key="sing_in" /></title>
-<!-- <link rel="stylesheet" type="text/css" href="css/style.css" /> -->
 	<style type="text/css"><%@include file="/css/style.css"%></style>
 </head>
 <body>

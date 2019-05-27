@@ -9,10 +9,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><fmt:message key="registration"/></title>
-	<!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+	<title><fmt:message key="registration"/></title>
 	<style type="text/css"><%@include file="/css/style.css"%></style>
-	
 </head>
 <body>
 	<jsp:include page="fragment/LocalePage.jsp"/> 

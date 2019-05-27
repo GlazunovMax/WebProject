@@ -379,28 +379,24 @@
 
 	<table border="1" bgcolor="#CD853F">
 		<caption><fmt:message key="drivers"/></caption>
-			
-			
-					
+				
 			<tr>
 				<th>ID</th>
 				<th><fmt:message key="driver" /></th>
 				<th><fmt:message key="cars" /></th>
 			</tr>
 			
-			
-			<%-- <c:forEach var="newDriver" items="${requestScope.driver}"> --%>
-			 <tr>
-				 <td>${requestScope.driver.id}</td>
-				 <td>${requestScope.driver.name} ${requestScope.driver.surname}</td>
+			<tr>
+				<td>${requestScope.driver.id}</td>
+				<td>${requestScope.driver.name} ${requestScope.driver.surname}</td>
 				 	
-				 <td>
+				<td>
 			 		<c:forEach var="carAp" items="${requestScope.carList}">
 			 			<input type="checkbox" name="id" value="${carAp.id}"> ${carAp.mark} ${carAp.number}<Br>						  
 					</c:forEach>
-				 </td>
+				</td>
 			</tr>
-			<%-- </c:forEach> --%>
+			
 	</table>
 	<input class="small-button" type="submit" value="<fmt:message key="send"/>"/>
 </form>

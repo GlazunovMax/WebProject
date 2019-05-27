@@ -20,14 +20,8 @@
 	<a href="javascript:history.back()"><fmt:message key="go_back"/></a>
 	<a href="Controller?command=logout"><fmt:message key="logout"/></a> 
 	
-		 <fmt:message key="${Role}"/> <fmt:message key="welcome"/>
-		 <wtd:welcome name="${sessionScope.userName}" surname="${sessionScope.userSurname}"/>
-		 
-		 <%-- <fmt:message key="welcome"/> 
-		 		<c:out value="${sessionScope.userName}"/>
-				<c:out value="${sessionScope.userSurname}"/>
-				<c:out value="${sessionScope.id}"/> --%>
-				
+	<fmt:message key="${Role}"/> <fmt:message key="welcome"/>
+	<wtd:welcome name="${sessionScope.userName}" surname="${sessionScope.userSurname}"/>		
 </div>
 
 </body>

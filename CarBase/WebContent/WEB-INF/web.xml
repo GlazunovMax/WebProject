@@ -27,15 +27,6 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
-   <filter>
-	    <filter-name>AythFilter</filter-name>
-	    <filter-class>by.epam.javawebtraining.glazunov.webproject.filter.AythFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	    <filter-name>AythFilter</filter-name>
-	    <url-pattern>/</url-pattern>
-	</filter-mapping>
-  
  <session-config>
      <session-timeout>60</session-timeout>
 </session-config>
@@ -50,10 +41,5 @@
 	<error-code>404</error-code>
 	<location>/WEB-INF/jsp/error/error.jsp</location>
 </error-page>
-
-<!-- <error-page>
-	<exception-type>javax.el.PropertyNotFoundException</exception-type>
-	<location>/WEB-INF/jsp/error/error500.jsp</location>
-</error-page> -->
   
 </web-app>

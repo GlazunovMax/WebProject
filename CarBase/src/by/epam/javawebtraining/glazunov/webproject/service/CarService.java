@@ -3,7 +3,6 @@ package by.epam.javawebtraining.glazunov.webproject.service;
 import java.util.List;
 import java.util.Set;
 
-import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
 import by.epam.javawebtraining.glazunov.webproject.entity.Car;
 import by.epam.javawebtraining.glazunov.webproject.entity.User;
 import by.epam.javawebtraining.glazunov.webproject.service.exception.ServiceException;

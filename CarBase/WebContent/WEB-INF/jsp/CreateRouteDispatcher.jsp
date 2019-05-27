@@ -20,24 +20,6 @@
 <!-- ------------------------------------------------------------------------- -->
 
 
-
-<%-- <c:set var="id" value="${sessionScope.id}" scope="request"/> --%><!-- idCar -->
-<%-- <div class="left-menu" style="border: thin;">
-	
-	<form class="" action="Controller" method="get">
-		<input type="hidden" name="command" value="get_all_car" /> 
-		<input type="hidden" name="id" value="${id}" /> 
-		
-		<!-- <h3 align="left" > -->
-			<input class="button" type="submit" value="<fmt:message key="allCars"/>"/>
-		<!-- </h3> -->								
-	</form>	
-</div> --%>
-
-
-
-<c:out value="${param.id}"/>
-
 		
 <!-------------------------------- CREATE ROUTE TABLE ------------------------------------------------------------------------------>
 <jsp:useBean id="userService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.UserServiceImpl" scope="application"/>
@@ -86,8 +68,7 @@
 	<c:if test="${not empty requestScope.errorOrderById}">
 		<h4><c:out value="${requestScope.errorOrderById}" /> </h4>
 	</c:if>
-	
- <!----------------------------------------------------------------------------------------------------------------------------------->
+ <!------------------------------------------------------------------>
  
  
  
@@ -127,13 +108,6 @@
 					 			</c:otherwise>
 					 			
 					 		</c:choose>
-					 	
-					 	
-					 		<%-- <c:if test="${car.statusCar eq 'GOOD'}">
-					 		
-					 			<option value="<c:out value="${car.id}"/>"> ${car.id}</option>
-					 			
-					 		</c:if> --%>
 					 	</c:forEach>
 				 	</select>
 			 	</td>	
@@ -145,90 +119,13 @@
 </table>
 <!------------------------------------------------------------------------------------------------------------------------------  -->
 
-<!--MESSAGE ERROR GET_CARS_BY_ID_DRIVER  -->
+<!--------------MESSAGE ERROR GET_CARS_BY_ID_DRIVER --------------- -->
 	<c:if test="${not empty requestScope.errorGetAllCar}">
 		<h4><c:out value="${requestScope.errorGetAllCar}" /> </h4>
 	</c:if>	
-
+<!-----------------------------------------------------------------  -->
 
 </div>
 
-
-<!-- TABLE CARS --> 
-<%-- <c:if test="${not empty requestScope.carsList}">
-<table border="1" bgcolor="pink">
-
-	 <jsp:useBean id="carService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.CarServiceImpl" scope="application"/>
-	 <caption><fmt:message key="Work cars"/></caption>
-			
-		<tr>
-			<th><fmt:message key="car_id" /></th>
-			<th><fmt:message key="car_mark" /></th>
-			<th><fmt:message key="car_number" /></th>
-			<th><fmt:message key="status_car" /></th>
-		</tr>
-		
-		<c:choose>
-			<c:when test="${empty requestScope.carsList}">
-				<tr><td><fmt:message key="no_cars"/></td></tr>
-			</c:when>
-			
-			<c:otherwise>
-				<c:forEach var="car" items="${requestScope.carsList}">
-				<c:if test="${car.statusCar eq 'GOOD'}">
-					<tr>
-						<td>${car.id}</td>
-						<td>${car.mark}</td>
-						<td>${car.number}</td>
-						<td>${car.statusCar}</td>
-					</tr>
-				</c:if>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
-</table>
-
-	<c:set var="command" value="get_all_car" scope="request"/>
-	<jsp:include page="/WEB-INF/jsp/fragment/Paginate.jsp"/>	
-</c:if>
- --%>
-
-
-<!-- TABLE ORDERS -->
-<%-- <table border="1" bgcolor="green">
-	<jsp:useBean id="orderService" class="by.epam.javawebtraining.glazunov.webproject.service.impl.OrderServiceImpl" scope="application"/>
-	<caption><fmt:message key="orders"/></caption>
-			
-		<tr>
-			<th>ID</th>
-			<th><fmt:message key="city_departure" /></th>
-			<th><fmt:message key="city_destination" /></th>
-			<th><fmt:message key="timeDate" /></th>
-			<th><fmt:message key="count_pass" /></th>
-		</tr>
-		
-		<c:choose>
-			<c:when test="${empty orderService.getAllOrderWithoutRoute()}">
-				<tr><td><fmt:message key="no_orders"/></td></tr>
-			</c:when>
-			
-			<c:otherwise>
-				<c:forEach var="order" items="${orderService.getAllOrderWithoutRoute()}">
-				 	<tr>
-						<td>${order.id}</td>
-						<td>${order.departure.cityName}</td>
-						<td>${order.destination.cityName}</td>
-						<td>${order.timeDeparture}</td>
-						<td>${order.countPassenger}</td>
-					</tr>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
-		
-</table> --%>
- 
- 
-
- 
 </body>
 </html>

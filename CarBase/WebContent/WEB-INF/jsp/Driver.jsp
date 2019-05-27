@@ -21,11 +21,6 @@
 	<c:set var="Role" value="Driver" scope="request"/>
 	<jsp:include page="/WEB-INF/jsp/fragment/Header.jsp" />
 <!----------------------------------------------------------------------------------------------->
-
-		<!-- ghjпроверить 500 ошибу -->
-					<%-- <jsp:useBean id="ob" class="java.lang.String"></jsp:useBean>
-				${ob.toString} --%>
-		<!--  -->
 																													
 		
 <!----------------------------MENU  /GET ALL ROUTE/GET ALL CAR/ BY ID_DRIVER--------------------->
@@ -41,14 +36,12 @@
 		</h3>								
 	</form>
 
-<!-- All Car's Driver  -->
-	
 	<form class="" action="Controller" method="get">
 		<input type="hidden" name="command" value="get_all_car_by_id_driver" /> 
 		<input type="hidden" name="id" value="${id}" /> 
 		
 		<h3 align="left" >
-			<input class="button" type="submit" value="<fmt:message key="allCars"/>"/>
+			<input class="button" type="submit" value="<fmt:message key="allCars"/>"/> <!-- All Car's Driver  -->
 		</h3>								
 	</form>	
 	
@@ -93,7 +86,6 @@
 						<input type="hidden" name="command" value="edit_mark_route" /> 
 						<input type="hidden" name="id" value="${route.id}" /> 
 							
-						<!-- <div class="mark_box"> -->
 						<select name="select_mark" style="background: #008080">
 							<option selected value="${route.mark}">${route.mark}</option>
 							<%-- <c:forEach items="${Mark.values()}" var="status">  --%>
@@ -101,7 +93,7 @@
 		 						<option value = "${status}">${status}</option>
 		  					</c:forEach>
 	  					</select>
-	  				<!-- 	</div> -->
+	  				
 						<input class="small-button" type="submit" value="<fmt:message key="edit"/>"/>							
 					</form>
   				</td>

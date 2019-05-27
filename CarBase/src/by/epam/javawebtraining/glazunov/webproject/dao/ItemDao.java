@@ -1,13 +1,5 @@
 package by.epam.javawebtraining.glazunov.webproject.dao;
 
-import static by.epam.javawebtraining.glazunov.webproject.util.SomeConstant.*;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.apache.log4j.Logger;
 
 import by.epam.javawebtraining.glazunov.webproject.dao.exception.DaoException;
@@ -37,65 +29,4 @@ public interface ItemDao<T extends Model> {
 	 *  @throws DaoException if can't add T extends Model to database
 	 */
 	void remove(long id) throws DaoException;
-	
-	
-	
-	
-	
-	/*default void closeResultSet(ResultSet resultSet) {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-				LOGGER.debug(MESSAGE_RESULT_SET_CLOSED);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(MESSAGE_RESULT_SET_CLOSED_EXCEPTION, e);
-		}
-	}
-	
-	default void closePreparedStatement(PreparedStatement preparedStatement) {
-		try {
-			if (preparedStatement != null) {
-				preparedStatement.close();
-				LOGGER.debug(MESSAGE_PREPARED_STATEMENT_CLOSED);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(PREPARED_STATEMENT_CLOSED_EXCEPTION, e);
-		}
-	}
-
-	default void closeStatement(Statement statement) {
-		try {
-			if (statement != null) {
-				statement.close();
-				LOGGER.debug(MESSAGE_STATEMENT_CLOSED);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(MESSAGE_STATEMENT_CLOSED_EXCEPTION, e);
-		}
-	}
-	
-	default void closeConnection(Connection connection) {
-		try {
-			if (connection != null) {
-				connection.close();
-				LOGGER.debug(MESSAGE_CONNECTION_CLOSED);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(CONNECTION_CLOSED_EXCEPTION);
-		}
-	}
-	
-	default void closeConnectionWithCommit(Connection connection) {
-		try {
-			if (connection != null) {
-				connection.setAutoCommit(true);
-				connection.close();
-				LOGGER.debug(MESSAGE_CONNECTION_CLOSED);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(CONNECTION_CLOSED_EXCEPTION);
-		}
-	}*/
-
 }
